@@ -1,0 +1,365 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Solicitud de Servicio - Liquid Glass Corporativo</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
+    
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Poppins', sans-serif; }
+        
+        body { 
+            /* --- FONDO CORREGIDO --- */
+            /* Se asume que la imagen está en la carpeta 'imagenes'. Si no es así, borra 'imagenes/' */
+            background: #e9eff5 url('imagenes/fondo.jpg') center center / cover no-repeat fixed;
+            
+            min-height: 100vh; 
+            display: flex; 
+            justify-content: center; 
+            align-items: center; 
+            overflow-x: hidden; 
+            padding: 20px; 
+        }
+        
+        /* --- LOGO --- */
+        .logo-esquina { position: absolute; top: 30px; left: 40px; z-index: 10; }
+        .logo-esquina img { height: 100px; max-width: 300px; object-fit: contain; filter: drop-shadow(0 4px 6px rgba(0,0,0,0.1)); transition: transform 0.3s ease; }
+        .logo-esquina img:hover { transform: scale(1.05); }
+
+        /* --- FORMAS LÍQUIDAS ANIMADAS --- */
+        .background-liquids { position: fixed; width: 100%; height: 100%; top: 0; left: 0; overflow: hidden; z-index: 0; pointer-events: none; }
+        
+        /* CORRECCIÓN: Se añadió 'opacity: 0.3' para que la imagen de fondo se vea a través de ellas */
+        .blob { position: absolute; filter: blur(50px); z-index: 0; animation: liquidAnim 12s infinite alternate ease-in-out; opacity: 0.3; }
+        
+        .blob-1 { width: 450px; height: 450px; background: #2e64b0; top: -5%; left: -5%; border-radius: 40% 60% 70% 30% / 40% 50% 60% 50%; }
+        .blob-2 { width: 550px; height: 550px; background: #ffffff; bottom: -10%; right: -5%; border-radius: 60% 40% 30% 70% / 50% 60% 40% 50%; animation-delay: -6s; animation-direction: alternate-reverse; box-shadow: 0 0 50px rgba(255,255,255,0.8); }
+        @keyframes liquidAnim { 0% { transform: translate(0, 0) rotate(0deg) scale(1); border-radius: 40% 60% 70% 30% / 40% 50% 60% 50%; } 50% { border-radius: 60% 40% 30% 70% / 50% 60% 40% 50%; } 100% { transform: translate(80px, 40px) rotate(180deg) scale(1.1); border-radius: 30% 70% 50% 50% / 60% 30% 70% 40%; } }
+
+        /* --- CONTENEDOR DE CRISTAL --- */
+        .glass-container { 
+            position: relative; 
+            z-index: 1; 
+            background: rgba(255, 255, 255, 0.6); /* Más opaco para facilitar lectura */
+            backdrop-filter: blur(20px); 
+            -webkit-backdrop-filter: blur(20px); 
+            border: 1px solid rgba(255, 255, 255, 0.8); 
+            box-shadow: 0 25px 45px rgba(0, 0, 0, 0.2); 
+            border-radius: 20px; 
+            width: 100%; 
+            max-width: 650px; 
+            padding: 40px; 
+            color: #1e293b; 
+            animation: fadeIn 1s ease-out; 
+            margin-top: 80px; 
+        }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+        
+        h2 { text-align: center; margin-bottom: 30px; font-weight: 600; font-size: 28px; color: #1e3a8a; text-shadow: 0 2px 10px rgba(255,255,255,0.8); }
+        .form-group { margin-bottom: 20px; position: relative; z-index: 1; }
+        .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
+        label { display: block; margin-bottom: 8px; font-size: 14px; color: #1e293b; font-weight: 700; text-shadow: 0 1px 3px rgba(255,255,255,0.8); }
+
+        /* --- INPUTS TEXTO --- */
+        input[type="text"], input[type="tel"], input[type="email"], input[type="number"] { width: 100%; padding: 12px 15px; background: rgba(255, 255, 255, 0.7); border: 1px solid rgba(46, 100, 176, 0.3); border-radius: 10px; color: #1e293b; font-size: 15px; outline: none; transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1); position: relative; z-index: 1; }
+        input::placeholder { color: #64748b; }
+        input:hover { background: rgba(255, 255, 255, 0.9); transform: translateY(-2px); box-shadow: 0 4px 10px rgba(46, 100, 176, 0.1); }
+        input:focus { background: rgba(255, 255, 255, 1); border-color: #2e64b0; box-shadow: 0 0 0 4px rgba(46, 100, 176, 0.2); transform: translateY(-2px) scale(1.01); }
+
+        /* --- DESPLEGABLE PERSONALIZADO --- */
+        .custom-select-wrapper { position: relative; user-select: none; width: 100%; z-index: 10; }
+        .custom-select-wrapper.open { z-index: 9999; }
+        .custom-select-trigger { display: flex; justify-content: space-between; align-items: center; width: 100%; padding: 12px 15px; background: rgba(255, 255, 255, 0.7); border: 1px solid rgba(46, 100, 176, 0.3); border-radius: 10px; color: #64748b; font-size: 15px; cursor: pointer; transition: all 0.3s ease; position: relative; z-index: 2; }
+        .custom-select-trigger.has-value { color: #1e293b; }
+        .custom-select-trigger:hover { background: rgba(255, 255, 255, 0.9); transform: translateY(-2px); box-shadow: 0 4px 10px rgba(46, 100, 176, 0.1); }
+        .custom-select-wrapper.open .custom-select-trigger { background: rgba(255, 255, 255, 1); border-color: #2e64b0; box-shadow: 0 0 0 4px rgba(46, 100, 176, 0.2); border-radius: 10px 10px 0 0; }
+        .arrow { width: 14px; height: 14px; background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%232e64b0' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3e%3cpolyline points='6 9 12 15 18 9'%3e%3c/polyline%3e%3c/svg%3e"); background-size: cover; transition: transform 0.3s ease; }
+        .custom-select-wrapper.open .arrow { transform: rotate(180deg); }
+        .custom-options { position: absolute; top: 100%; left: 0; right: 0; background: rgba(255, 255, 255, 0.95); backdrop-filter: blur(25px); -webkit-backdrop-filter: blur(25px); border: 1px solid rgba(46, 100, 176, 0.2); border-top: none; border-radius: 0 0 10px 10px; box-shadow: 0 25px 50px rgba(0, 0, 0, 0.15); opacity: 0; visibility: hidden; transform: translateY(-10px); transition: all 0.3s ease; z-index: 9999; max-height: 250px; overflow-y: auto; }
+        .custom-select-wrapper.open .custom-options { opacity: 1; visibility: visible; transform: translateY(0); }
+        .custom-option { padding: 12px 15px; font-size: 15px; color: #1e293b; cursor: pointer; transition: background 0.2s; border-bottom: 1px solid rgba(46, 100, 176, 0.05); }
+        .custom-option:last-child { border-bottom: none; }
+        .custom-option:hover { background: rgba(46, 100, 176, 0.1); color: #2e64b0; font-weight: 500; }
+        .custom-option.selected { background: #2e64b0; color: white; }
+        .custom-options::-webkit-scrollbar { width: 6px; }
+        .custom-options::-webkit-scrollbar-track { background: rgba(0,0,0,0.05); border-radius: 0 0 10px 0; }
+        .custom-options::-webkit-scrollbar-thumb { background: rgba(46, 100, 176, 0.3); border-radius: 10px; }
+        .custom-options::-webkit-scrollbar-thumb:hover { background: #2e64b0; }
+        .hidden-select { position: absolute; opacity: 0; height: 0; width: 0; pointer-events: none; }
+
+        /* --- VISITA TÉCNICA --- */
+        .visita-box { display: none; background: rgba(255, 255, 255, 0.85); border: 1px solid rgba(46, 100, 176, 0.4); border-left: 5px solid #2e64b0; padding: 20px; border-radius: 10px; margin-top: 10px; margin-bottom: 20px; position: relative; z-index: 5; box-shadow: 0 10px 20px rgba(0,0,0,0.05); }
+        .visita-box.active { display: block; animation: slideDown 0.4s ease-out forwards; }
+        @keyframes slideDown { from { opacity: 0; transform: translateY(-10px); } to { opacity: 1; transform: translateY(0); } }
+        .visita-box p { font-size: 14px; color: #1e293b; margin-bottom: 15px; line-height: 1.5; }
+
+        /* --- BANNER DE DESCUENTO --- */
+        .discount-banner { background: linear-gradient(90deg, rgba(255, 255, 255, 0.85), rgba(46, 100, 176, 0.1)); border-left: 4px solid #2e64b0; padding: 15px; border-radius: 8px; margin: 25px 0; font-size: 14px; display: flex; align-items: center; gap: 10px; transition: all 0.4s ease; color: #1e293b; position: relative; z-index: 1; box-shadow: 0 4px 15px rgba(0,0,0,0.1); }
+        .discount-banner.active { background: linear-gradient(90deg, rgba(255, 255, 255, 0.95), rgba(46, 100, 176, 0.25)); transform: scale(1.02); box-shadow: 0 5px 20px rgba(46, 100, 176, 0.3); border-color: #2e64b0; }
+        .discount-banner strong { color: #2e64b0; }
+
+        /* --- BOTÓN --- */
+        button { width: 100%; padding: 15px; background: #2e64b0; border: none; border-radius: 10px; color: #ffffff; font-size: 16px; font-weight: 600; cursor: pointer; transition: all 0.3s ease; box-shadow: 0 5px 15px rgba(46, 100, 176, 0.4); margin-top: 10px; position: relative; z-index: 1; }
+        button:hover { transform: translateY(-3px); box-shadow: 0 8px 25px rgba(46, 100, 176, 0.6); background: #255393; }
+        button:active { transform: translateY(0); }
+
+        /* Responsivo */
+        @media (max-width: 600px) { .form-row { grid-template-columns: 1fr; gap: 0; } .glass-container { padding: 25px; margin-top: 100px; } .logo-esquina { top: 20px; left: 50%; transform: translateX(-50%); } .logo-esquina img:hover { transform: translateX(-50%) scale(1.05); } }
+    </style>
+</head>
+<body>
+
+    <div class="logo-esquina">
+        <img src="imagenes/logo.png" alt="Logo de la Empresa">
+    </div>
+
+    <!-- Las formas líquidas ahora tienen opacity: 0.3 en el CSS para no tapar el fondo -->
+    <div class="background-liquids">
+        <div class="blob blob-1"></div>
+        <div class="blob blob-2"></div>
+    </div>
+
+    <div class="glass-container">
+        <h2>Solicitud de Servicio</h2>
+        <form id="serviceForm">
+            
+            <div class="form-group">
+                <label for="nombre">Nombre de la Persona o Empresa</label>
+                <input type="text" id="nombre" placeholder="Ej: Juan Pérez o Empresa S.A.S" required>
+            </div>
+
+            <div class="form-row">
+                <div class="form-group">
+                    <label for="razonSocial">Razón Social</label>
+                    <input type="text" id="razonSocial" placeholder="Opcional">
+                </div>
+                <div class="form-group">
+                    <label for="telefono">Teléfono</label>
+                    <input type="tel" id="telefono" placeholder="Tu número de contacto" required>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label for="correo">Correo Electrónico</label>
+                <input type="email" id="correo" placeholder="ejemplo@correo.com" required>
+            </div>
+
+            <div class="form-group">
+                <label for="direccion">Dirección del Servicio</label>
+                <input type="text" id="direccion" placeholder="Calle, Carrera, Ciudad..." required>
+            </div>
+
+            <div class="form-group" style="z-index: 20;">
+                <label>Tipo de Servicio Requerido</label>
+                <div class="custom-select-wrapper" id="wrapper-servicio">
+                    <div class="custom-select-trigger">
+                        <span>Seleccione un servicio principal...</span>
+                        <div class="arrow"></div>
+                    </div>
+                    <div class="custom-options">
+                        <div class="custom-option" data-value="Aseo General">Aseo General</div>
+                        <div class="custom-option" data-value="Jardinería">Jardinería</div>
+                        <div class="custom-option" data-value="Mantenimiento/Lavado de Pisos">Mantenimiento/Lavado de Pisos</div>
+                        <div class="custom-option" data-value="Limpieza de Fachada">Limpieza de Fachada</div>
+                        <div class="custom-option" data-value="Mantenimiento Locativo">Mantenimiento Locativo</div>
+                        <div class="custom-option" data-value="Limpieza de Campanas">Limpieza de Campanas Extractoras</div>
+                    </div>
+                    <input type="text" id="servicio" class="hidden-select" required>
+                </div>
+            </div>
+
+            <div class="visita-box" id="visitaBox">
+                <p><strong>⚠️ Importante:</strong> El servicio seleccionado requiere programar una <strong>visita técnica previa</strong> para evaluar el área y brindarte una cotización exacta.</p>
+                
+                <div class="form-group" style="margin-bottom: 0; z-index: 15;">
+                    <label>¿Deseas agregar otro servicio de ejecución inmediata?</label>
+                    <div class="custom-select-wrapper" id="wrapper-adicional">
+                        <div class="custom-select-trigger has-value">
+                            <span>No, solo requiero la visita técnica.</span>
+                            <div class="arrow"></div>
+                        </div>
+                        <div class="custom-options">
+                            <div class="custom-option selected" data-value="Ninguno">No, solo requiero la visita técnica.</div>
+                            <div class="custom-option" data-value="Aseo General">Sí, agregar Aseo General</div>
+                            <div class="custom-option" data-value="Jardinería">Sí, agregar Jardinería</div>
+                            <div class="custom-option" data-value="Mantenimiento/Lavado de Pisos">Sí, agregar Mantenimiento/Lavado de Pisos</div>
+                            <div class="custom-option" data-value="Limpieza de Fachada">Sí, agregar Limpieza de Fachada</div>
+                            <div class="custom-option" data-value="Mantenimiento Locativo">Sí, agregar Mantenimiento Locativo</div>
+                            <div class="custom-option" data-value="Limpieza de Campanas">Sí, agregar Limpieza de Campanas</div>
+                        </div>
+                        <input type="text" id="servicioAdicional" value="Ninguno" class="hidden-select">
+                    </div>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label for="dias">Número de días que requiere el servicio</label>
+                <input type="number" id="dias" min="1" placeholder="Ej: 1" required>
+            </div>
+
+            <div class="discount-banner" id="discountBanner">
+                <span style="font-size: 24px;">🏷️</span>
+                <p><strong>¡Beneficio exclusivo!</strong> Si programas este servicio de forma recurrente o por más días, obtendrás un <strong>descuento especial</strong> en tu tarifa.</p>
+            </div>
+
+            <button type="submit" id="submitBtn">Solicitar Cotización</button>
+        </form>
+    </div>
+
+    <script>
+        const APPS_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbyF7dv1JH4V42uzgevXdLa_GmeI3iUmt1G0IURmwQLAHwRG-NrrmjXDN3dkikYjgUxfiQ/exec';
+
+        const selectWrappers = document.querySelectorAll('.custom-select-wrapper');
+
+        selectWrappers.forEach(wrapper => {
+            const trigger = wrapper.querySelector('.custom-select-trigger');
+            const options = wrapper.querySelectorAll('.custom-option');
+            const hiddenInput = wrapper.querySelector('.hidden-select');
+            const spanText = trigger.querySelector('span');
+
+            trigger.addEventListener('click', function(e) {
+                selectWrappers.forEach(w => { 
+                    if(w !== wrapper) {
+                        w.classList.remove('open');
+                        w.closest('.form-group').style.zIndex = "1"; 
+                    }
+                });
+                wrapper.classList.toggle('open');
+                if(wrapper.classList.contains('open')) {
+                    wrapper.closest('.form-group').style.zIndex = "999";
+                } else {
+                    wrapper.closest('.form-group').style.zIndex = "1";
+                }
+                e.stopPropagation();
+            });
+
+            options.forEach(option => {
+                option.addEventListener('click', function(e) {
+                    options.forEach(opt => opt.classList.remove('selected'));
+                    this.classList.add('selected');
+
+                    spanText.textContent = this.textContent;
+                    hiddenInput.value = this.getAttribute('data-value');
+                    trigger.classList.add('has-value');
+
+                    wrapper.classList.remove('open');
+                    wrapper.closest('.form-group').style.zIndex = "1"; 
+
+                    hiddenInput.dispatchEvent(new Event('change'));
+                    e.stopPropagation();
+                });
+            });
+        });
+
+        window.addEventListener('click', function() {
+            selectWrappers.forEach(w => {
+                w.classList.remove('open');
+                w.closest('.form-group').style.zIndex = "1";
+            });
+        });
+
+        const inputServicio = document.getElementById('servicio');
+        const visitaBox = document.getElementById('visitaBox');
+        const spanAdicional = document.querySelector('#wrapper-adicional span');
+        const inputAdicional = document.getElementById('servicioAdicional');
+        const opcionesAdicionales = document.querySelectorAll('#wrapper-adicional .custom-option');
+
+        const requierenVisita = ['Jardinería', 'Limpieza de Fachada', 'Mantenimiento/Lavado de Pisos', 'Mantenimiento Locativo'];
+
+        inputServicio.addEventListener('change', function() {
+            if (requierenVisita.includes(this.value)) {
+                visitaBox.classList.add('active'); 
+            } else {
+                visitaBox.classList.remove('active'); 
+                inputAdicional.value = "Ninguno";
+                spanAdicional.textContent = "No, solo requiero la visita técnica.";
+                opcionesAdicionales.forEach(opt => opt.classList.remove('selected'));
+                if(opcionesAdicionales.length > 0) opcionesAdicionales[0].classList.add('selected');
+            }
+        });
+
+        const inputDias = document.getElementById('dias');
+        const discountBanner = document.getElementById('discountBanner');
+
+        inputDias.addEventListener('input', function() {
+            if (this.value > 1) {
+                discountBanner.classList.add('active');
+            } else {
+                discountBanner.classList.remove('active');
+            }
+        });
+
+        document.getElementById('serviceForm').addEventListener('submit', function(e) {
+            e.preventDefault(); 
+            
+            if(!inputServicio.value) {
+                alert("Por favor, seleccione el Tipo de Servicio Requerido.");
+                return;
+            }
+
+            const btn = document.getElementById('submitBtn');
+            const originalText = btn.innerText;
+            
+            btn.innerText = "Enviando datos...";
+            btn.style.opacity = "0.8";
+            btn.disabled = true;
+
+            const formData = {
+                nombre: document.getElementById('nombre').value,
+                razonSocial: document.getElementById('razonSocial').value,
+                telefono: document.getElementById('telefono').value,
+                correo: document.getElementById('correo').value,
+                direccion: document.getElementById('direccion').value,
+                servicio: document.getElementById('servicio').value,
+                servicioAdicional: document.getElementById('servicioAdicional').value,
+                dias: document.getElementById('dias').value
+            };
+
+            fetch(APPS_SCRIPT_URL, {
+                method: 'POST',
+                body: JSON.stringify(formData),
+                headers: {
+                    "Content-Type": "text/plain;charset=utf-8",
+                }
+            })
+            .then(response => response.json())
+            .then(data => {
+                if(data.result === "success") {
+                    btn.style.background = "#10b981"; 
+                    btn.innerText = "¡Solicitud Enviada con Éxito!";
+                    btn.style.opacity = "1";
+                    
+                    setTimeout(() => {
+                        document.getElementById('serviceForm').reset();
+                        document.querySelector('#wrapper-servicio span').textContent = "Seleccione un servicio principal...";
+                        document.querySelector('#wrapper-servicio .custom-select-trigger').classList.remove('has-value');
+                        inputServicio.value = "";
+                        
+                        btn.style.background = "#2e64b0"; 
+                        btn.innerText = originalText;
+                        btn.disabled = false;
+                        discountBanner.classList.remove('active');
+                        visitaBox.classList.remove('active'); 
+                    }, 3000);
+                } else {
+                    throw new Error("Error en Apps Script");
+                }
+            })
+            .catch(error => {
+                console.error('Error!', error.message);
+                btn.style.background = "#ef4444"; 
+                btn.innerText = "Error al enviar. Intenta de nuevo.";
+                btn.style.opacity = "1";
+                
+                setTimeout(() => {
+                    btn.style.background = "#2e64b0"; 
+                    btn.innerText = originalText;
+                    btn.disabled = false;
+                }, 3000);
+            });
+        });
+    </script>
+
+</body>
+</html>
