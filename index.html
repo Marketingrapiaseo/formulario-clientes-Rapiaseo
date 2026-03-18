@@ -10,7 +10,6 @@
         * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Poppins', sans-serif; }
         
         body { 
-            /* --- FONDO CORREGIDO --- */
             background: #e9eff5 url('imagenes/fondo.jpg') center center / cover no-repeat fixed;
             min-height: 100vh; 
             display: flex; 
@@ -53,7 +52,7 @@
         @keyframes fadeIn { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
         
         h2 { text-align: center; margin-bottom: 30px; font-weight: 600; font-size: 28px; color: #1e3a8a; text-shadow: 0 2px 10px rgba(255,255,255,0.8); }
-        .form-group { margin-bottom: 20px; position: relative; z-index: 1; }
+        .form-group { margin-bottom: 20px; position: relative; }
         .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
         label { display: block; margin-bottom: 8px; font-size: 14px; color: #1e293b; font-weight: 700; text-shadow: 0 1px 3px rgba(255,255,255,0.8); }
 
@@ -64,15 +63,15 @@
         input:focus { background: rgba(255, 255, 255, 1); border-color: #2e64b0; box-shadow: 0 0 0 4px rgba(46, 100, 176, 0.2); transform: translateY(-2px) scale(1.01); }
 
         /* --- DESPLEGABLE PERSONALIZADO --- */
-        .custom-select-wrapper { position: relative; user-select: none; width: 100%; z-index: 10; }
-        .custom-select-wrapper.open { z-index: 9999; }
+        .custom-select-wrapper { position: relative; user-select: none; width: 100%; }
         .custom-select-trigger { display: flex; justify-content: space-between; align-items: center; width: 100%; padding: 12px 15px; background: rgba(255, 255, 255, 0.7); border: 1px solid rgba(46, 100, 176, 0.3); border-radius: 10px; color: #64748b; font-size: 15px; cursor: pointer; transition: all 0.3s ease; position: relative; z-index: 2; }
         .custom-select-trigger.has-value { color: #1e293b; }
         .custom-select-trigger:hover { background: rgba(255, 255, 255, 0.9); transform: translateY(-2px); box-shadow: 0 4px 10px rgba(46, 100, 176, 0.1); }
-        .custom-select-wrapper.open .custom-select-trigger { background: rgba(255, 255, 255, 1); border-color: #2e64b0; box-shadow: 0 0 0 4px rgba(46, 100, 176, 0.2); border-radius: 10px 10px 0 0; }
+        .custom-select-wrapper.open .custom-select-trigger { background: rgba(255, 255, 255, 1); border-color: #2e64b0; box-shadow: 0 0 0 4px rgba(46, 100, 176, 0.2); border-radius: 10px 10px 0 0; z-index: 3; }
         .arrow { width: 14px; height: 14px; background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%232e64b0' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3e%3cpolyline points='6 9 12 15 18 9'%3e%3c/polyline%3e%3c/svg%3e"); background-size: cover; transition: transform 0.3s ease; }
         .custom-select-wrapper.open .arrow { transform: rotate(180deg); }
-        .custom-options { position: absolute; top: 100%; left: 0; right: 0; background: rgba(255, 255, 255, 0.95); backdrop-filter: blur(25px); -webkit-backdrop-filter: blur(25px); border: 1px solid rgba(46, 100, 176, 0.2); border-top: none; border-radius: 0 0 10px 10px; box-shadow: 0 25px 50px rgba(0, 0, 0, 0.15); opacity: 0; visibility: hidden; transform: translateY(-10px); transition: all 0.3s ease; z-index: 9999; max-height: 250px; overflow-y: auto; }
+        
+        .custom-options { position: absolute; top: 100%; left: 0; right: 0; background: rgba(255, 255, 255, 0.98); backdrop-filter: blur(25px); -webkit-backdrop-filter: blur(25px); border: 1px solid rgba(46, 100, 176, 0.2); border-top: none; border-radius: 0 0 10px 10px; box-shadow: 0 25px 50px rgba(0, 0, 0, 0.2); opacity: 0; visibility: hidden; transform: translateY(-10px); transition: all 0.3s ease; max-height: 250px; overflow-y: auto; z-index: 9999; }
         .custom-select-wrapper.open .custom-options { opacity: 1; visibility: visible; transform: translateY(0); }
         .custom-option { padding: 12px 15px; font-size: 15px; color: #1e293b; cursor: pointer; transition: background 0.2s; border-bottom: 1px solid rgba(46, 100, 176, 0.05); }
         .custom-option:last-child { border-bottom: none; }
@@ -84,8 +83,8 @@
         .custom-options::-webkit-scrollbar-thumb:hover { background: #2e64b0; }
         .hidden-select { position: absolute; opacity: 0; height: 0; width: 0; pointer-events: none; }
 
-        /* --- VISITA TÉCNICA --- */
-        .visita-box { display: none; background: rgba(255, 255, 255, 0.85); border: 1px solid rgba(46, 100, 176, 0.4); border-left: 5px solid #2e64b0; padding: 20px; border-radius: 10px; margin-top: 10px; margin-bottom: 20px; position: relative; z-index: 5; box-shadow: 0 10px 20px rgba(0,0,0,0.05); }
+        /* --- VISITA TÉCNICA (Corrección de z-index) --- */
+        .visita-box { display: none; background: rgba(255, 255, 255, 0.85); border: 1px solid rgba(46, 100, 176, 0.4); border-left: 5px solid #2e64b0; padding: 20px; border-radius: 10px; margin-top: 10px; margin-bottom: 20px; position: relative; z-index: 20; box-shadow: 0 10px 20px rgba(0,0,0,0.05); }
         .visita-box.active { display: block; animation: slideDown 0.4s ease-out forwards; }
         @keyframes slideDown { from { opacity: 0; transform: translateY(-10px); } to { opacity: 1; transform: translateY(0); } }
         .visita-box p { font-size: 14px; color: #1e293b; margin-bottom: 15px; line-height: 1.5; }
@@ -101,45 +100,15 @@
         button:active { transform: translateY(0); }
 
         /* --- BOTÓN WHATSAPP FLOTANTE --- */
-        .whatsapp-float {
-            position: fixed;
-            width: 65px;
-            height: 65px;
-            bottom: 30px;
-            right: 30px;
-            background-color: #25d366;
-            border-radius: 50px;
-            box-shadow: 0px 4px 15px rgba(0, 0, 0, 0.3);
-            z-index: 10000;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            transition: all 0.3s ease;
-            text-decoration: none;
-            animation: pulseWA 2s infinite;
-        }
-        .whatsapp-float svg {
-            width: 38px;
-            height: 38px;
-            fill: white;
-            margin-top: -2px;
-        }
-        .whatsapp-float:hover {
-            transform: scale(1.1);
-            background-color: #128C7E;
-            box-shadow: 0px 6px 20px rgba(0, 0, 0, 0.4);
-            animation: none;
-        }
-        @keyframes pulseWA {
-            0% { box-shadow: 0 0 0 0 rgba(37, 211, 102, 0.6); }
-            70% { box-shadow: 0 0 0 20px rgba(37, 211, 102, 0); }
-            100% { box-shadow: 0 0 0 0 rgba(37, 211, 102, 0); }
-        }
+        .whatsapp-float { position: fixed; width: 65px; height: 65px; bottom: 30px; right: 30px; background-color: #25d366; border-radius: 50px; box-shadow: 0px 4px 15px rgba(0, 0, 0, 0.3); z-index: 10000; display: flex; align-items: center; justify-content: center; transition: all 0.3s ease; text-decoration: none; animation: pulseWA 2s infinite; }
+        .whatsapp-float svg { width: 38px; height: 38px; fill: white; margin-top: -2px; }
+        .whatsapp-float:hover { transform: scale(1.1); background-color: #128C7E; box-shadow: 0px 6px 20px rgba(0, 0, 0, 0.4); animation: none; }
+        @keyframes pulseWA { 0% { box-shadow: 0 0 0 0 rgba(37, 211, 102, 0.6); } 70% { box-shadow: 0 0 0 20px rgba(37, 211, 102, 0); } 100% { box-shadow: 0 0 0 0 rgba(37, 211, 102, 0); } }
 
         /* Responsivo */
         @media (max-width: 600px) { 
             .form-row { grid-template-columns: 1fr; gap: 0; } 
-            .glass-container { padding: 25px; margin-top: 100px; margin-bottom: 100px; } /* Más espacio abajo por el botón WA */
+            .glass-container { padding: 25px; margin-top: 100px; margin-bottom: 100px; } 
             .logo-esquina { top: 20px; left: 50%; transform: translateX(-50%); } 
             .logo-esquina img:hover { transform: translateX(-50%) scale(1.05); } 
             .whatsapp-float { width: 55px; height: 55px; bottom: 20px; right: 20px; }
@@ -163,12 +132,12 @@
         <h2>Solicitud de Servicio</h2>
         <form id="serviceForm">
             
-            <div class="form-group">
+            <div class="form-group" style="z-index: 1;">
                 <label for="nombre">Nombre de la Persona o Empresa</label>
                 <input type="text" id="nombre" placeholder="Ej: Juan Pérez o Empresa S.A.S" required>
             </div>
 
-            <div class="form-row">
+            <div class="form-row" style="z-index: 1; position: relative;">
                 <div class="form-group">
                     <label for="razonSocial">Razón Social</label>
                     <input type="text" id="razonSocial" placeholder="Opcional">
@@ -179,17 +148,18 @@
                 </div>
             </div>
 
-            <div class="form-group">
+            <div class="form-group" style="z-index: 1;">
                 <label for="correo">Correo Electrónico</label>
                 <input type="email" id="correo" placeholder="ejemplo@correo.com" required>
             </div>
 
-            <div class="form-group">
+            <div class="form-group" style="z-index: 1;">
                 <label for="direccion">Dirección del Servicio</label>
                 <input type="text" id="direccion" placeholder="Calle, Carrera, Ciudad..." required>
             </div>
 
-            <div class="form-group" style="z-index: 20;">
+            <!-- Z-INDEX 30: Prioridad Alta para que pase por encima de Visita y Tiempo -->
+            <div class="form-group" style="z-index: 30;">
                 <label>Tipo de Servicio Requerido</label>
                 <div class="custom-select-wrapper" id="wrapper-servicio">
                     <div class="custom-select-trigger">
@@ -203,15 +173,18 @@
                         <div class="custom-option" data-value="Limpieza de Fachada">Limpieza de Fachada</div>
                         <div class="custom-option" data-value="Mantenimiento Locativo">Mantenimiento Locativo</div>
                         <div class="custom-option" data-value="Limpieza de Campanas">Limpieza de Campanas Extractoras</div>
+                        <div class="custom-option" data-value="Lavado de Tanques">Lavado de Tanques</div>
+                        <div class="custom-option" data-value="Conserje">Conserje</div>
                     </div>
                     <input type="text" id="servicio" class="hidden-select" required>
                 </div>
             </div>
 
-            <div class="visita-box" id="visitaBox">
+            <!-- Z-INDEX 20: Prioridad Media para que pase por encima del Tiempo -->
+            <div class="visita-box" id="visitaBox" style="z-index: 20;">
                 <p><strong>⚠️ Importante:</strong> El servicio seleccionado requiere programar una <strong>visita técnica previa</strong> para evaluar el área y brindarte una cotización exacta.</p>
                 
-                <div class="form-group" style="margin-bottom: 0; z-index: 15;">
+                <div class="form-group" style="margin-bottom: 0;">
                     <label>¿Deseas agregar otro servicio de ejecución inmediata?</label>
                     <div class="custom-select-wrapper" id="wrapper-adicional">
                         <div class="custom-select-trigger has-value">
@@ -226,18 +199,39 @@
                             <div class="custom-option" data-value="Limpieza de Fachada">Sí, agregar Limpieza de Fachada</div>
                             <div class="custom-option" data-value="Mantenimiento Locativo">Sí, agregar Mantenimiento Locativo</div>
                             <div class="custom-option" data-value="Limpieza de Campanas">Sí, agregar Limpieza de Campanas</div>
+                            <div class="custom-option" data-value="Lavado de Tanques">Sí, agregar Lavado de Tanques</div>
+                            <div class="custom-option" data-value="Conserje">Sí, agregar Conserje</div>
                         </div>
                         <input type="text" id="servicioAdicional" value="Ninguno" class="hidden-select">
                     </div>
                 </div>
             </div>
 
-            <div class="form-group">
-                <label for="dias">Número de días que requiere el servicio</label>
-                <input type="number" id="dias" min="1" placeholder="Ej: 1" required>
+            <!-- Z-INDEX 10: Prioridad Baja (quedará debajo de los menús desplegables de arriba) -->
+            <div class="form-group" style="z-index: 10;">
+                <label>Tiempo que requiere el servicio</label>
+                <div class="form-row">
+                    <div class="form-group" style="margin-bottom: 0;">
+                        <input type="number" id="tiempoCantidad" min="1" placeholder="Ej: 1, 2, 3..." required>
+                    </div>
+                    <div class="form-group" style="margin-bottom: 0;">
+                        <div class="custom-select-wrapper" id="wrapper-tiempo-unidad">
+                            <div class="custom-select-trigger has-value">
+                                <span>Días</span>
+                                <div class="arrow"></div>
+                            </div>
+                            <div class="custom-options">
+                                <div class="custom-option selected" data-value="Días">Días</div>
+                                <div class="custom-option" data-value="Semanas">Semanas</div>
+                                <div class="custom-option" data-value="Meses">Meses</div>
+                            </div>
+                            <input type="text" id="tiempoUnidad" value="Días" class="hidden-select" required>
+                        </div>
+                    </div>
+                </div>
             </div>
 
-            <div class="discount-banner" id="discountBanner">
+            <div class="discount-banner" id="discountBanner" style="z-index: 1;">
                 <span style="font-size: 24px;">🏷️</span>
                 <p><strong>¡Beneficio exclusivo!</strong> Si programas este servicio de forma recurrente o por más días, obtendrás un <strong>descuento especial</strong> en tu tarifa.</p>
             </div>
@@ -247,20 +241,15 @@
     </div>
 
     <!-- BOTÓN DE WHATSAPP FLOTANTE -->
-    <a href="https://wa.me/573155928626?text=Hola%20RAPIASEO!%20Me%20gustar%C3%ADa%20solicitar%20un%20servicio%20de...%0A%0A" 
-       class="whatsapp-float" 
-       target="_blank" 
-       rel="noopener noreferrer" 
-       title="Chatea con nosotros en WhatsApp">
-        
-        <!-- Icono vectorial (SVG) de WhatsApp -->
+    <a href="https://wa.me/573155928626?text=Hola%20RAPIASEO!%20Me%20gustar%C3%ADa%20solicitar%20un%20servicio%20de...%0A%0A" class="whatsapp-float" target="_blank" rel="noopener noreferrer" title="Chatea con nosotros en WhatsApp">
         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512">
             <path d="M380.9 97.1C339 55.1 283.2 32 223.9 32c-122.4 0-222 99.6-222 222 0 39.1 10.2 77.3 29.6 111L0 480l117.7-30.9c32.4 17.7 68.9 27 106.1 27h.1c122.3 0 224.1-99.6 224.1-222 0-59.3-25.2-115-67.1-157.1zm-157 341.6c-33.2 0-65.7-8.9-94-25.7l-6.7-4-69.8 18.3L72 359.2l-4.4-7c-18.5-29.4-28.2-63.3-28.2-98.2 0-101.7 82.8-184.5 184.6-184.5 49.3 0 95.6 19.2 130.4 54.1 34.8 34.9 56.2 81.2 56.1 130.5 0 101.8-84.9 184.6-186.6 184.6zm101.2-138.2c-5.5-2.8-32.8-16.2-37.9-18-5.1-1.9-8.8-2.8-12.5 2.8-3.7 5.6-14.3 18-17.6 21.8-3.2 3.7-6.5 4.2-12 1.4-32.6-16.3-54-29.1-75.5-66-5.7-9.8 5.7-9.1 16.3-30.3 1.8-3.7.9-6.9-.5-9.7-1.4-2.8-12.5-30.1-17.1-41.2-4.5-10.8-9.1-9.3-12.5-9.5-3.2-.2-6.9-.2-10.6-.2-3.7 0-9.7 1.4-14.8 6.9-5.1 5.6-19.4 19-19.4 46.3 0 27.3 19.9 53.7 22.6 57.4 2.8 3.7 39.1 59.7 94.8 83.8 35.2 15.2 49 16.5 66.6 13.9 10.7-1.6 32.8-13.4 37.4-26.4 4.6-13 4.6-24.1 3.2-26.4-1.3-2.5-5-3.9-10.5-6.6z"/>
         </svg>
     </a>
 
     <script>
-        const APPS_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbwWPRpwjssP5Yeudulunx0KWieXt9ULD_1fDZpTLHXw8B8iHofKA4FQgk7JnnhPUvMreg/exec';
+        // ¡AQUÍ ESTÁ TU NUEVA URL DE APPS SCRIPT!
+        const APPS_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbzUs1un4mg4ybKFGvE004MoU83NFiK7vBrP1_aUWozON3ezFprEzM7D-KHBMnJ0x6E/exec';
 
         const selectWrappers = document.querySelectorAll('.custom-select-wrapper');
 
@@ -274,15 +263,9 @@
                 selectWrappers.forEach(w => { 
                     if(w !== wrapper) {
                         w.classList.remove('open');
-                        w.closest('.form-group').style.zIndex = "1"; 
                     }
                 });
                 wrapper.classList.toggle('open');
-                if(wrapper.classList.contains('open')) {
-                    wrapper.closest('.form-group').style.zIndex = "999";
-                } else {
-                    wrapper.closest('.form-group').style.zIndex = "1";
-                }
                 e.stopPropagation();
             });
 
@@ -296,8 +279,6 @@
                     trigger.classList.add('has-value');
 
                     wrapper.classList.remove('open');
-                    wrapper.closest('.form-group').style.zIndex = "1"; 
-
                     hiddenInput.dispatchEvent(new Event('change'));
                     e.stopPropagation();
                 });
@@ -305,19 +286,17 @@
         });
 
         window.addEventListener('click', function() {
-            selectWrappers.forEach(w => {
-                w.classList.remove('open');
-                w.closest('.form-group').style.zIndex = "1";
-            });
+            selectWrappers.forEach(w => w.classList.remove('open'));
         });
 
+        // Lógica de Visita Técnica (Se incluyó Conserje y Lavado de Tanques)
         const inputServicio = document.getElementById('servicio');
         const visitaBox = document.getElementById('visitaBox');
         const spanAdicional = document.querySelector('#wrapper-adicional span');
         const inputAdicional = document.getElementById('servicioAdicional');
         const opcionesAdicionales = document.querySelectorAll('#wrapper-adicional .custom-option');
 
-        const requierenVisita = ['Jardinería', 'Limpieza de Fachada', 'Mantenimiento/Lavado de Pisos', 'Mantenimiento Locativo'];
+        const requierenVisita = ['Jardinería', 'Limpieza de Fachada', 'Mantenimiento/Lavado de Pisos', 'Mantenimiento Locativo', 'Lavado de Tanques', 'Conserje'];
 
         inputServicio.addEventListener('change', function() {
             if (requierenVisita.includes(this.value)) {
@@ -331,16 +310,23 @@
             }
         });
 
-        const inputDias = document.getElementById('dias');
+        const inputTiempoCantidad = document.getElementById('tiempoCantidad');
+        const inputTiempoUnidad = document.getElementById('tiempoUnidad');
         const discountBanner = document.getElementById('discountBanner');
 
-        inputDias.addEventListener('input', function() {
-            if (this.value > 1) {
+        function verificarDescuento() {
+            const cantidad = parseInt(inputTiempoCantidad.value) || 0;
+            const unidad = inputTiempoUnidad.value;
+
+            if (cantidad > 1 || unidad === 'Semanas' || unidad === 'Meses') {
                 discountBanner.classList.add('active');
             } else {
                 discountBanner.classList.remove('active');
             }
-        });
+        }
+
+        inputTiempoCantidad.addEventListener('input', verificarDescuento);
+        inputTiempoUnidad.addEventListener('change', verificarDescuento);
 
         document.getElementById('serviceForm').addEventListener('submit', function(e) {
             e.preventDefault(); 
@@ -357,6 +343,8 @@
             btn.style.opacity = "0.8";
             btn.disabled = true;
 
+            const tiempoCompleto = inputTiempoCantidad.value + " " + inputTiempoUnidad.value;
+
             const formData = {
                 nombre: document.getElementById('nombre').value,
                 razonSocial: document.getElementById('razonSocial').value,
@@ -365,7 +353,7 @@
                 direccion: document.getElementById('direccion').value,
                 servicio: document.getElementById('servicio').value,
                 servicioAdicional: document.getElementById('servicioAdicional').value,
-                dias: document.getElementById('dias').value
+                dias: tiempoCompleto 
             };
 
             fetch(APPS_SCRIPT_URL, {
@@ -384,9 +372,13 @@
                     
                     setTimeout(() => {
                         document.getElementById('serviceForm').reset();
+                        
                         document.querySelector('#wrapper-servicio span').textContent = "Seleccione un servicio principal...";
                         document.querySelector('#wrapper-servicio .custom-select-trigger').classList.remove('has-value');
                         inputServicio.value = "";
+
+                        document.querySelector('#wrapper-tiempo-unidad span').textContent = "Días";
+                        inputTiempoUnidad.value = "Días";
                         
                         btn.style.background = "#2e64b0"; 
                         btn.innerText = originalText;
