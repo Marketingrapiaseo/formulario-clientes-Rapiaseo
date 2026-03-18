@@ -83,11 +83,28 @@
         .custom-options::-webkit-scrollbar-thumb:hover { background: #2e64b0; }
         .hidden-select { position: absolute; opacity: 0; height: 0; width: 0; pointer-events: none; }
 
-        /* --- VISITA TÉCNICA (Corrección de z-index) --- */
-        .visita-box { display: none; background: rgba(255, 255, 255, 0.85); border: 1px solid rgba(46, 100, 176, 0.4); border-left: 5px solid #2e64b0; padding: 20px; border-radius: 10px; margin-top: 10px; margin-bottom: 20px; position: relative; z-index: 20; box-shadow: 0 10px 20px rgba(0,0,0,0.05); }
+        /* --- ALERTA VISITA TÉCNICA --- */
+        .visita-box { 
+            display: none; 
+            background: rgba(255, 255, 255, 0.95);
+            border: 1px solid rgba(46, 100, 176, 0.2); 
+            border-left: 5px solid #2e64b0; 
+            padding: 15px 20px; 
+            border-radius: 8px; 
+            margin-bottom: 20px; 
+            position: relative; 
+            z-index: 25; 
+            box-shadow: 0 4px 15px rgba(0,0,0,0.05); 
+        }
         .visita-box.active { display: block; animation: slideDown 0.4s ease-out forwards; }
+        .visita-box p { font-size: 14.5px; color: #334155; margin-bottom: 0; line-height: 1.6; }
+        .visita-box strong { color: #1e293b; }
+
+        /* --- CAJA SERVICIO ADICIONAL --- */
+        .adicional-box { display: none; position: relative; z-index: 20; margin-bottom: 20px; background: rgba(255, 255, 255, 0.5); padding: 15px; border-radius: 10px; border: 1px dashed rgba(46, 100, 176, 0.5); }
+        .adicional-box.active { display: block; animation: slideDown 0.4s ease-out forwards; }
+
         @keyframes slideDown { from { opacity: 0; transform: translateY(-10px); } to { opacity: 1; transform: translateY(0); } }
-        .visita-box p { font-size: 14px; color: #1e293b; margin-bottom: 15px; line-height: 1.5; }
 
         /* --- BANNER DE DESCUENTO --- */
         .discount-banner { background: linear-gradient(90deg, rgba(255, 255, 255, 0.85), rgba(46, 100, 176, 0.1)); border-left: 4px solid #2e64b0; padding: 15px; border-radius: 8px; margin: 25px 0; font-size: 14px; display: flex; align-items: center; gap: 10px; transition: all 0.4s ease; color: #1e293b; position: relative; z-index: 1; box-shadow: 0 4px 15px rgba(0,0,0,0.1); }
@@ -104,6 +121,17 @@
         .whatsapp-float svg { width: 38px; height: 38px; fill: white; margin-top: -2px; }
         .whatsapp-float:hover { transform: scale(1.1); background-color: #128C7E; box-shadow: 0px 6px 20px rgba(0, 0, 0, 0.4); animation: none; }
         @keyframes pulseWA { 0% { box-shadow: 0 0 0 0 rgba(37, 211, 102, 0.6); } 70% { box-shadow: 0 0 0 20px rgba(37, 211, 102, 0); } 100% { box-shadow: 0 0 0 0 rgba(37, 211, 102, 0); } }
+
+        /* --- VENTANA EMERGENTE (MODAL GLASS) --- */
+        .modal-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0, 0, 0, 0.3); backdrop-filter: blur(8px); -webkit-backdrop-filter: blur(8px); z-index: 99999; display: flex; justify-content: center; align-items: center; opacity: 0; visibility: hidden; transition: all 0.4s ease; }
+        .modal-overlay.active { opacity: 1; visibility: visible; }
+        .modal-glass { background: rgba(255, 255, 255, 0.85); backdrop-filter: blur(25px); -webkit-backdrop-filter: blur(25px); border: 1px solid rgba(255, 255, 255, 0.9); box-shadow: 0 30px 60px rgba(0, 0, 0, 0.2); border-radius: 20px; padding: 40px; text-align: center; max-width: 400px; width: 90%; transform: translateY(20px) scale(0.95); transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1); }
+        .modal-overlay.active .modal-glass { transform: translateY(0) scale(1); }
+        .modal-icon { width: 70px; height: 70px; fill: #10b981; margin: 0 auto 20px; }
+        .modal-glass h3 { color: #1e3a8a; font-size: 26px; margin-bottom: 10px; font-weight: 600; }
+        .modal-glass p { color: #475569; font-size: 15px; margin-bottom: 30px; line-height: 1.6; }
+        .modal-btn { background: #10b981; margin-top: 0; width: auto; padding: 12px 30px; font-size: 16px; }
+        .modal-btn:hover { background: #059669; transform: translateY(-3px); box-shadow: 0 8px 25px rgba(16, 185, 129, 0.4); }
 
         /* Responsivo */
         @media (max-width: 600px) { 
@@ -122,12 +150,13 @@
         <img src="imagenes/logo.png" alt="Logo de la Empresa">
     </div>
 
-    <!-- Las formas líquidas -->
+    <!-- Formas líquidas -->
     <div class="background-liquids">
         <div class="blob blob-1"></div>
         <div class="blob blob-2"></div>
     </div>
 
+    <!-- CONTENEDOR PRINCIPAL -->
     <div class="glass-container">
         <h2>Solicitud de Servicio</h2>
         <form id="serviceForm">
@@ -158,7 +187,7 @@
                 <input type="text" id="direccion" placeholder="Calle, Carrera, Ciudad..." required>
             </div>
 
-            <!-- Z-INDEX 30: Prioridad Alta para que pase por encima de Visita y Tiempo -->
+            <!-- SERVICIO PRINCIPAL -->
             <div class="form-group" style="z-index: 30;">
                 <label>Tipo de Servicio Requerido</label>
                 <div class="custom-select-wrapper" id="wrapper-servicio">
@@ -168,46 +197,49 @@
                     </div>
                     <div class="custom-options">
                         <div class="custom-option" data-value="Aseo General">Aseo General</div>
+                        <div class="custom-option" data-value="Conserje">Conserje</div>
                         <div class="custom-option" data-value="Jardinería">Jardinería</div>
                         <div class="custom-option" data-value="Mantenimiento/Lavado de Pisos">Mantenimiento/Lavado de Pisos</div>
                         <div class="custom-option" data-value="Limpieza de Fachada">Limpieza de Fachada</div>
                         <div class="custom-option" data-value="Mantenimiento Locativo">Mantenimiento Locativo</div>
                         <div class="custom-option" data-value="Limpieza de Campanas">Limpieza de Campanas Extractoras</div>
                         <div class="custom-option" data-value="Lavado de Tanques">Lavado de Tanques</div>
-                        <div class="custom-option" data-value="Conserje">Conserje</div>
                     </div>
                     <input type="text" id="servicio" class="hidden-select" required>
                 </div>
             </div>
 
-            <!-- Z-INDEX 20: Prioridad Media para que pase por encima del Tiempo -->
-            <div class="visita-box" id="visitaBox" style="z-index: 20;">
-                <p><strong>⚠️ Importante:</strong> El servicio seleccionado requiere programar una <strong>visita técnica previa</strong> para evaluar el área y brindarte una cotización exacta.</p>
-                
+            <!-- ALERTA DE VISITA TÉCNICA -->
+            <div class="visita-box" id="visitaBox">
+                <p>⚠️ <strong>Importante:</strong> El servicio seleccionado requiere programar una <strong>visita técnica previa</strong> para evaluar el área y brindarte una cotización exacta.</p>
+            </div>
+
+            <!-- SERVICIO ADICIONAL (SIEMPRE APARECERÁ DESPUÉS DEL PRINCIPAL) -->
+            <div class="adicional-box" id="adicionalBox">
                 <div class="form-group" style="margin-bottom: 0;">
-                    <label>¿Deseas agregar otro servicio de ejecución inmediata?</label>
+                    <label>¿Deseas agregar otro servicio adicional?</label>
                     <div class="custom-select-wrapper" id="wrapper-adicional">
                         <div class="custom-select-trigger has-value">
-                            <span>No, solo requiero la visita técnica.</span>
+                            <span>No, no requiero otro servicio.</span>
                             <div class="arrow"></div>
                         </div>
                         <div class="custom-options">
-                            <div class="custom-option selected" data-value="Ninguno">No, solo requiero la visita técnica.</div>
+                            <div class="custom-option selected" data-value="Ninguno">No, no requiero otro servicio.</div>
                             <div class="custom-option" data-value="Aseo General">Sí, agregar Aseo General</div>
+                            <div class="custom-option" data-value="Conserje">Sí, agregar Conserje</div>
                             <div class="custom-option" data-value="Jardinería">Sí, agregar Jardinería</div>
                             <div class="custom-option" data-value="Mantenimiento/Lavado de Pisos">Sí, agregar Mantenimiento/Lavado de Pisos</div>
                             <div class="custom-option" data-value="Limpieza de Fachada">Sí, agregar Limpieza de Fachada</div>
                             <div class="custom-option" data-value="Mantenimiento Locativo">Sí, agregar Mantenimiento Locativo</div>
                             <div class="custom-option" data-value="Limpieza de Campanas">Sí, agregar Limpieza de Campanas</div>
                             <div class="custom-option" data-value="Lavado de Tanques">Sí, agregar Lavado de Tanques</div>
-                            <div class="custom-option" data-value="Conserje">Sí, agregar Conserje</div>
                         </div>
                         <input type="text" id="servicioAdicional" value="Ninguno" class="hidden-select">
                     </div>
                 </div>
             </div>
 
-            <!-- Z-INDEX 10: Prioridad Baja (quedará debajo de los menús desplegables de arriba) -->
+            <!-- TIEMPO REQUERIDO -->
             <div class="form-group" style="z-index: 10;">
                 <label>Tiempo que requiere el servicio</label>
                 <div class="form-row">
@@ -231,6 +263,7 @@
                 </div>
             </div>
 
+            <!-- BANNER DESCUENTO -->
             <div class="discount-banner" id="discountBanner" style="z-index: 1;">
                 <span style="font-size: 24px;">🏷️</span>
                 <p><strong>¡Beneficio exclusivo!</strong> Si programas este servicio de forma recurrente o por más días, obtendrás un <strong>descuento especial</strong> en tu tarifa.</p>
@@ -238,6 +271,18 @@
 
             <button type="submit" id="submitBtn">Solicitar Cotización</button>
         </form>
+    </div>
+
+    <!-- VENTANA EMERGENTE DE ÉXITO (MODAL) -->
+    <div class="modal-overlay" id="successModal">
+        <div class="modal-glass">
+            <svg class="modal-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
+                <path d="M256 512A256 256 0 1 0 256 0a256 256 0 1 0 0 512zM369 209L241 337c-9.4 9.4-24.6 9.4-33.9 0l-64-64c-9.4-9.4-9.4-24.6 0-33.9s24.6-9.4 33.9 0l47 47L335 175c9.4-9.4 24.6-9.4 33.9 0s9.4 24.6 0 33.9z"/>
+            </svg>
+            <h3>¡Solicitud Recibida!</h3>
+            <p>Tus datos fueron enviados con éxito. Pronto nos pondremos en contacto contigo para continuar con el proceso.</p>
+            <button class="modal-btn" id="closeModalBtn">Aceptar</button>
+        </div>
     </div>
 
     <!-- BOTÓN DE WHATSAPP FLOTANTE -->
@@ -248,9 +293,10 @@
     </a>
 
     <script>
-        // ¡AQUÍ ESTÁ TU NUEVA URL DE APPS SCRIPT!
-        const APPS_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbzUs1un4mg4ybKFGvE004MoU83NFiK7vBrP1_aUWozON3ezFprEzM7D-KHBMnJ0x6E/exec';
+        // === NUEVA URL DE APPS SCRIPT ===
+        const APPS_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbzdNDjJzMn2ydT9e93FFOOApD_eSHKsPAxUYkOGwe3X-xdFg_jBVr4Eic8eze1i6guZ/exec';
 
+        // Lógica de menús desplegables
         const selectWrappers = document.querySelectorAll('.custom-select-wrapper');
 
         selectWrappers.forEach(wrapper => {
@@ -261,9 +307,7 @@
 
             trigger.addEventListener('click', function(e) {
                 selectWrappers.forEach(w => { 
-                    if(w !== wrapper) {
-                        w.classList.remove('open');
-                    }
+                    if(w !== wrapper) { w.classList.remove('open'); }
                 });
                 wrapper.classList.toggle('open');
                 e.stopPropagation();
@@ -289,27 +333,50 @@
             selectWrappers.forEach(w => w.classList.remove('open'));
         });
 
-        // Lógica de Visita Técnica (Se incluyó Conserje y Lavado de Tanques)
+        // ==========================================
+        // LÓGICA DE SERVICIOS Y VISITA TÉCNICA
+        // ==========================================
         const inputServicio = document.getElementById('servicio');
         const visitaBox = document.getElementById('visitaBox');
-        const spanAdicional = document.querySelector('#wrapper-adicional span');
+        const adicionalBox = document.getElementById('adicionalBox');
         const inputAdicional = document.getElementById('servicioAdicional');
-        const opcionesAdicionales = document.querySelectorAll('#wrapper-adicional .custom-option');
 
-        const requierenVisita = ['Jardinería', 'Limpieza de Fachada', 'Mantenimiento/Lavado de Pisos', 'Mantenimiento Locativo', 'Lavado de Tanques', 'Conserje'];
+        // Estos son los ÚNICOS que NO exigen visita técnica
+        const serviciosSinVisita = ['Aseo General', 'Conserje', 'Ninguno', ''];
 
-        inputServicio.addEventListener('change', function() {
-            if (requierenVisita.includes(this.value)) {
-                visitaBox.classList.add('active'); 
+        function verificarVisitaTecnica() {
+            const valPrincipal = inputServicio.value;
+            const valAdicional = inputAdicional.value;
+
+            const principalPideVisita = valPrincipal !== "" && !serviciosSinVisita.includes(valPrincipal);
+            const adicionalPideVisita = valAdicional !== "" && !serviciosSinVisita.includes(valAdicional);
+
+            if (principalPideVisita || adicionalPideVisita) {
+                visitaBox.classList.add('active');
             } else {
-                visitaBox.classList.remove('active'); 
-                inputAdicional.value = "Ninguno";
-                spanAdicional.textContent = "No, solo requiero la visita técnica.";
-                opcionesAdicionales.forEach(opt => opt.classList.remove('selected'));
-                if(opcionesAdicionales.length > 0) opcionesAdicionales[0].classList.add('selected');
+                visitaBox.classList.remove('active');
             }
+        }
+
+        // Cada vez que cambie el servicio principal
+        inputServicio.addEventListener('change', function() {
+            // SIEMPRE que se escoja algo (lo que sea), se muestra la caja del servicio adicional
+            if(this.value && this.value !== "") {
+                adicionalBox.classList.add('active');
+            } else {
+                adicionalBox.classList.remove('active');
+            }
+            verificarVisitaTecnica();
         });
 
+        // Cada vez que cambie el servicio adicional
+        inputAdicional.addEventListener('change', function() {
+            verificarVisitaTecnica();
+        });
+
+        // ==========================================
+        // Lógica del Banner de Descuento
+        // ==========================================
         const inputTiempoCantidad = document.getElementById('tiempoCantidad');
         const inputTiempoUnidad = document.getElementById('tiempoUnidad');
         const discountBanner = document.getElementById('discountBanner');
@@ -328,6 +395,19 @@
         inputTiempoCantidad.addEventListener('input', verificarDescuento);
         inputTiempoUnidad.addEventListener('change', verificarDescuento);
 
+        // ==========================================
+        // Lógica de Ventana Emergente (Modal)
+        // ==========================================
+        const modal = document.getElementById('successModal');
+        const btnCloseModal = document.getElementById('closeModalBtn');
+
+        btnCloseModal.addEventListener('click', () => {
+            modal.classList.remove('active');
+        });
+
+        // ==========================================
+        // Envío del Formulario
+        // ==========================================
         document.getElementById('serviceForm').addEventListener('submit', function(e) {
             e.preventDefault(); 
             
@@ -359,33 +439,39 @@
             fetch(APPS_SCRIPT_URL, {
                 method: 'POST',
                 body: JSON.stringify(formData),
-                headers: {
-                    "Content-Type": "text/plain;charset=utf-8",
-                }
+                headers: { "Content-Type": "text/plain;charset=utf-8" }
             })
             .then(response => response.json())
             .then(data => {
                 if(data.result === "success") {
-                    btn.style.background = "#10b981"; 
-                    btn.innerText = "¡Solicitud Enviada con Éxito!";
-                    btn.style.opacity = "1";
                     
-                    setTimeout(() => {
-                        document.getElementById('serviceForm').reset();
-                        
-                        document.querySelector('#wrapper-servicio span').textContent = "Seleccione un servicio principal...";
-                        document.querySelector('#wrapper-servicio .custom-select-trigger').classList.remove('has-value');
-                        inputServicio.value = "";
+                    // Mostrar la Ventana Emergente (Modal Glass)
+                    modal.classList.add('active');
+                    
+                    // Restaurar botón
+                    btn.innerText = originalText;
+                    btn.disabled = false;
+                    btn.style.opacity = "1";
 
-                        document.querySelector('#wrapper-tiempo-unidad span').textContent = "Días";
-                        inputTiempoUnidad.value = "Días";
-                        
-                        btn.style.background = "#2e64b0"; 
-                        btn.innerText = originalText;
-                        btn.disabled = false;
-                        discountBanner.classList.remove('active');
-                        visitaBox.classList.remove('active'); 
-                    }, 3000);
+                    // Limpiar formulario y ocultar cajas dinámicas
+                    document.getElementById('serviceForm').reset();
+                    
+                    document.querySelector('#wrapper-servicio span').textContent = "Seleccione un servicio principal...";
+                    document.querySelector('#wrapper-servicio .custom-select-trigger').classList.remove('has-value');
+                    inputServicio.value = "";
+
+                    document.querySelector('#wrapper-adicional span').textContent = "No, no requiero otro servicio.";
+                    inputAdicional.value = "Ninguno";
+                    document.querySelectorAll('#wrapper-adicional .custom-option').forEach(opt => opt.classList.remove('selected'));
+                    document.querySelectorAll('#wrapper-adicional .custom-option')[0].classList.add('selected');
+
+                    document.querySelector('#wrapper-tiempo-unidad span').textContent = "Días";
+                    inputTiempoUnidad.value = "Días";
+                    
+                    discountBanner.classList.remove('active');
+                    visitaBox.classList.remove('active'); 
+                    adicionalBox.classList.remove('active');
+
                 } else {
                     throw new Error("Error en Apps Script");
                 }
