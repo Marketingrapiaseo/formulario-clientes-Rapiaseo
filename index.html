@@ -17,6 +17,7 @@
             align-items: center; 
             overflow-x: hidden; 
             padding: 20px; 
+            perspective: 1200px; /* Para el efecto 3D del panel */
         }
         
         /* --- LOGO --- */
@@ -24,54 +25,83 @@
         .logo-esquina img { height: 80px; max-width: 300px; object-fit: contain; filter: drop-shadow(0 4px 6px rgba(0,0,0,0.1)); transition: transform 0.3s ease; }
         .logo-esquina img:hover { transform: scale(1.05); }
 
-        /* --- FORMAS LÍQUIDAS ANIMADAS --- */
-        .background-liquids { position: fixed; width: 100%; height: 100%; top: 0; left: 0; overflow: hidden; z-index: 0; pointer-events: none; }
-        .blob { position: absolute; filter: blur(50px); z-index: 0; animation: liquidAnim 12s infinite alternate ease-in-out; opacity: 0.3; }
-        .blob-1 { width: 450px; height: 450px; background: #2e64b0; top: -5%; left: -5%; border-radius: 40% 60% 70% 30% / 40% 50% 60% 50%; }
-        .blob-2 { width: 550px; height: 550px; background: #ffffff; bottom: -10%; right: -5%; border-radius: 60% 40% 30% 70% / 50% 60% 40% 50%; animation-delay: -6s; animation-direction: alternate-reverse; box-shadow: 0 0 50px rgba(255,255,255,0.8); }
-        @keyframes liquidAnim { 0% { transform: translate(0, 0) rotate(0deg) scale(1); border-radius: 40% 60% 70% 30% / 40% 50% 60% 50%; } 50% { border-radius: 60% 40% 30% 70% / 50% 60% 40% 50%; } 100% { transform: translate(80px, 40px) rotate(180deg) scale(1.1); border-radius: 30% 70% 50% 50% / 60% 30% 70% 40%; } }
-
-        /* --- CONTENEDOR DE CRISTAL --- */
+        /* --- CONTENEDOR DE CRISTAL (Limpio y 3D) --- */
         .glass-container { 
             position: relative; 
             z-index: 1; 
-            background: rgba(255, 255, 255, 0.6); 
-            backdrop-filter: blur(20px); 
-            -webkit-backdrop-filter: blur(20px); 
-            border: 1px solid rgba(255, 255, 255, 0.8); 
-            box-shadow: 0 25px 45px rgba(0, 0, 0, 0.2); 
+            
+            /* Cristal limpio y corporativo */
+            background: rgba(255, 255, 255, 0.45);
+            backdrop-filter: blur(25px);
+            -webkit-backdrop-filter: blur(25px);
+            
+            border: 1px solid rgba(255, 255, 255, 0.6);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+            border-right: 1px solid rgba(255, 255, 255, 0.2);
             border-radius: 20px; 
+            
+            box-shadow: 0 25px 45px rgba(0, 0, 0, 0.15);
+                
             width: 100%; 
             max-width: 650px; 
             padding: 40px; 
             color: #1e293b; 
-            animation: fadeIn 1s ease-out; 
             margin-top: 80px; 
             margin-bottom: 40px;
+            
+            /* Transición fluida para el seguimiento del ratón */
+            transition: transform 0.1s ease-out;
+            transform-style: preserve-3d;
+            will-change: transform;
+            
+            /* Variables CSS para la luz dinámica */
+            --mouse-x: 50%;
+            --mouse-y: 50%;
         }
-        @keyframes fadeIn { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+
+        /* Reflejo Dinámico (Luz que sigue al ratón) */
+        .glass-container::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            border-radius: 20px;
+            background: radial-gradient(
+                600px circle at var(--mouse-x) var(--mouse-y), 
+                rgba(255, 255, 255, 0.3),
+                transparent 40%
+            );
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        /* Elevación sutil del contenido sobre el cristal */
+        #serviceForm, h2 { 
+            transform: translateZ(10px); 
+            position: relative;
+            z-index: 1;
+        }
         
         h2 { text-align: center; margin-bottom: 30px; font-weight: 600; font-size: 28px; color: #1e3a8a; text-shadow: 0 2px 10px rgba(255,255,255,0.8); }
-        .form-group { margin-bottom: 20px; position: relative; }
+        .form-group { margin-bottom: 20px; position: relative; z-index: 1; }
         .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
         label { display: block; margin-bottom: 8px; font-size: 14px; color: #1e293b; font-weight: 700; text-shadow: 0 1px 3px rgba(255,255,255,0.8); }
 
         /* --- INPUTS TEXTO --- */
-        input[type="text"], input[type="tel"], input[type="email"], input[type="number"] { width: 100%; padding: 12px 15px; background: rgba(255, 255, 255, 0.7); border: 1px solid rgba(46, 100, 176, 0.3); border-radius: 10px; color: #1e293b; font-size: 15px; outline: none; transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1); position: relative; z-index: 1; }
+        input[type="text"], input[type="tel"], input[type="email"], input[type="number"] { width: 100%; padding: 12px 15px; background: rgba(255, 255, 255, 0.7); border: 1px solid rgba(46, 100, 176, 0.3); border-radius: 10px; color: #1e293b; font-size: 15px; outline: none; transition: all 0.3s ease; position: relative; z-index: 1; }
         input::placeholder { color: #64748b; }
-        input:hover { background: rgba(255, 255, 255, 0.9); transform: translateY(-2px); box-shadow: 0 4px 10px rgba(46, 100, 176, 0.1); }
-        input:focus { background: rgba(255, 255, 255, 1); border-color: #2e64b0; box-shadow: 0 0 0 4px rgba(46, 100, 176, 0.2); transform: translateY(-2px) scale(1.01); }
+        input:hover { background: rgba(255, 255, 255, 0.9); box-shadow: 0 4px 10px rgba(46, 100, 176, 0.1); }
+        input:focus { background: rgba(255, 255, 255, 1); border-color: #2e64b0; box-shadow: 0 0 0 4px rgba(46, 100, 176, 0.2); }
 
         /* --- DESPLEGABLE PERSONALIZADO --- */
         .custom-select-wrapper { position: relative; user-select: none; width: 100%; }
         .custom-select-trigger { display: flex; justify-content: space-between; align-items: center; width: 100%; padding: 12px 15px; background: rgba(255, 255, 255, 0.7); border: 1px solid rgba(46, 100, 176, 0.3); border-radius: 10px; color: #64748b; font-size: 15px; cursor: pointer; transition: all 0.3s ease; position: relative; z-index: 2; }
         .custom-select-trigger.has-value { color: #1e293b; }
-        .custom-select-trigger:hover { background: rgba(255, 255, 255, 0.9); transform: translateY(-2px); box-shadow: 0 4px 10px rgba(46, 100, 176, 0.1); }
+        .custom-select-trigger:hover { background: rgba(255, 255, 255, 0.9); }
         .custom-select-wrapper.open .custom-select-trigger { background: rgba(255, 255, 255, 1); border-color: #2e64b0; box-shadow: 0 0 0 4px rgba(46, 100, 176, 0.2); border-radius: 10px 10px 0 0; z-index: 3; }
         .arrow { width: 14px; height: 14px; background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%232e64b0' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3e%3cpolyline points='6 9 12 15 18 9'%3e%3c/polyline%3e%3c/svg%3e"); background-size: cover; transition: transform 0.3s ease; }
         .custom-select-wrapper.open .arrow { transform: rotate(180deg); }
         
-        .custom-options { position: absolute; top: 100%; left: 0; right: 0; background: rgba(255, 255, 255, 0.98); backdrop-filter: blur(25px); -webkit-backdrop-filter: blur(25px); border: 1px solid rgba(46, 100, 176, 0.2); border-top: none; border-radius: 0 0 10px 10px; box-shadow: 0 25px 50px rgba(0, 0, 0, 0.2); opacity: 0; visibility: hidden; transform: translateY(-10px); transition: all 0.3s ease; max-height: 250px; overflow-y: auto; z-index: 9999; }
+        .custom-options { position: absolute; top: 100%; left: 0; right: 0; background: rgba(255, 255, 255, 0.98); backdrop-filter: blur(25px); border: 1px solid rgba(46, 100, 176, 0.2); border-top: none; border-radius: 0 0 10px 10px; box-shadow: 0 25px 50px rgba(0, 0, 0, 0.2); opacity: 0; visibility: hidden; transform: translateY(-10px); transition: all 0.3s ease; max-height: 250px; overflow-y: auto; z-index: 9999; }
         .custom-select-wrapper.open .custom-options { opacity: 1; visibility: visible; transform: translateY(0); }
         .custom-option { padding: 12px 15px; font-size: 15px; color: #1e293b; cursor: pointer; transition: background 0.2s; border-bottom: 1px solid rgba(46, 100, 176, 0.05); }
         .custom-option:last-child { border-bottom: none; }
@@ -80,65 +110,55 @@
         .custom-options::-webkit-scrollbar { width: 6px; }
         .custom-options::-webkit-scrollbar-track { background: rgba(0,0,0,0.05); border-radius: 0 0 10px 0; }
         .custom-options::-webkit-scrollbar-thumb { background: rgba(46, 100, 176, 0.3); border-radius: 10px; }
-        .custom-options::-webkit-scrollbar-thumb:hover { background: #2e64b0; }
         .hidden-select { position: absolute; opacity: 0; height: 0; width: 0; pointer-events: none; }
 
-        /* --- ALERTA VISITA TÉCNICA --- */
-        .visita-box { 
-            display: none; 
-            background: rgba(255, 255, 255, 0.95);
-            border: 1px solid rgba(46, 100, 176, 0.2); 
-            border-left: 5px solid #2e64b0; 
-            padding: 15px 20px; 
-            border-radius: 8px; 
-            margin-bottom: 20px; 
-            position: relative; 
-            z-index: 25; 
-            box-shadow: 0 4px 15px rgba(0,0,0,0.05); 
-        }
+        /* --- ALERTA VISITA TÉCNICA (Diseño limpio y claro) --- */
+        .visita-box { display: none; background: rgba(255, 255, 255, 0.95); border: 1px solid rgba(46, 100, 176, 0.2); border-left: 5px solid #2e64b0; padding: 15px 20px; border-radius: 8px; margin-bottom: 20px; position: relative; z-index: 25; box-shadow: 0 4px 15px rgba(0,0,0,0.05); }
         .visita-box.active { display: block; animation: slideDown 0.4s ease-out forwards; }
-        .visita-box p { font-size: 14.5px; color: #334155; margin-bottom: 0; line-height: 1.6; }
+        .visita-box p { font-size: 14px; color: #334155; margin-bottom: 0; line-height: 1.5; }
         .visita-box strong { color: #1e293b; }
 
         /* --- CAJA SERVICIO ADICIONAL --- */
-        .adicional-box { display: none; position: relative; z-index: 20; margin-bottom: 20px; background: rgba(255, 255, 255, 0.5); padding: 15px; border-radius: 10px; border: 1px dashed rgba(46, 100, 176, 0.5); }
+        .adicional-box { display: none; position: relative; z-index: 20; margin-bottom: 20px; background: rgba(255, 255, 255, 0.6); padding: 15px; border-radius: 10px; border: 1px dashed rgba(46, 100, 176, 0.4); }
         .adicional-box.active { display: block; animation: slideDown 0.4s ease-out forwards; }
 
         @keyframes slideDown { from { opacity: 0; transform: translateY(-10px); } to { opacity: 1; transform: translateY(0); } }
 
         /* --- BANNER DE DESCUENTO --- */
         .discount-banner { background: linear-gradient(90deg, rgba(255, 255, 255, 0.85), rgba(46, 100, 176, 0.1)); border-left: 4px solid #2e64b0; padding: 15px; border-radius: 8px; margin: 25px 0; font-size: 14px; display: flex; align-items: center; gap: 10px; transition: all 0.4s ease; color: #1e293b; position: relative; z-index: 1; box-shadow: 0 4px 15px rgba(0,0,0,0.1); }
-        .discount-banner.active { background: linear-gradient(90deg, rgba(255, 255, 255, 0.95), rgba(46, 100, 176, 0.25)); transform: scale(1.02); box-shadow: 0 5px 20px rgba(46, 100, 176, 0.3); border-color: #2e64b0; }
-        .discount-banner strong { color: #2e64b0; }
+        .discount-banner.active { background: linear-gradient(90deg, rgba(255, 255, 255, 0.95), rgba(46, 100, 176, 0.25)); transform: scale(1.02); border-color: #2e64b0; }
 
         /* --- BOTÓN FORMULARIO --- */
         button { width: 100%; padding: 15px; background: #2e64b0; border: none; border-radius: 10px; color: #ffffff; font-size: 16px; font-weight: 600; cursor: pointer; transition: all 0.3s ease; box-shadow: 0 5px 15px rgba(46, 100, 176, 0.4); margin-top: 10px; position: relative; z-index: 1; }
         button:hover { transform: translateY(-3px); box-shadow: 0 8px 25px rgba(46, 100, 176, 0.6); background: #255393; }
-        button:active { transform: translateY(0); }
 
-        /* --- BOTÓN WHATSAPP FLOTANTE --- */
-        .whatsapp-float { position: fixed; width: 65px; height: 65px; bottom: 30px; right: 30px; background-color: #25d366; border-radius: 50px; box-shadow: 0px 4px 15px rgba(0, 0, 0, 0.3); z-index: 10000; display: flex; align-items: center; justify-content: center; transition: all 0.3s ease; text-decoration: none; animation: pulseWA 2s infinite; }
-        .whatsapp-float svg { width: 38px; height: 38px; fill: white; margin-top: -2px; }
-        .whatsapp-float:hover { transform: scale(1.1); background-color: #128C7E; box-shadow: 0px 6px 20px rgba(0, 0, 0, 0.4); animation: none; }
-        @keyframes pulseWA { 0% { box-shadow: 0 0 0 0 rgba(37, 211, 102, 0.6); } 70% { box-shadow: 0 0 0 20px rgba(37, 211, 102, 0); } 100% { box-shadow: 0 0 0 0 rgba(37, 211, 102, 0); } }
-
-        /* --- VENTANA EMERGENTE (MODAL GLASS) --- */
-        .modal-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0, 0, 0, 0.3); backdrop-filter: blur(8px); -webkit-backdrop-filter: blur(8px); z-index: 99999; display: flex; justify-content: center; align-items: center; opacity: 0; visibility: hidden; transition: all 0.4s ease; }
+        /* --- VENTANA EMERGENTE DE ÉXITO --- */
+        .modal-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0, 0, 0, 0.5); backdrop-filter: blur(5px); z-index: 99999; display: flex; justify-content: center; align-items: center; opacity: 0; visibility: hidden; transition: all 0.3s ease; }
         .modal-overlay.active { opacity: 1; visibility: visible; }
-        .modal-glass { background: rgba(255, 255, 255, 0.85); backdrop-filter: blur(25px); -webkit-backdrop-filter: blur(25px); border: 1px solid rgba(255, 255, 255, 0.9); box-shadow: 0 30px 60px rgba(0, 0, 0, 0.2); border-radius: 20px; padding: 40px; text-align: center; max-width: 400px; width: 90%; transform: translateY(20px) scale(0.95); transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1); }
-        .modal-overlay.active .modal-glass { transform: translateY(0) scale(1); }
+        .modal-glass { 
+            background: rgba(255, 255, 255, 0.95); 
+            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.2); 
+            border-radius: 20px; padding: 40px; text-align: center; max-width: 420px; width: 90%; 
+            transform: translateY(20px); transition: all 0.4s ease; 
+        }
+        .modal-overlay.active .modal-glass { transform: translateY(0); }
         .modal-icon { width: 70px; height: 70px; fill: #10b981; margin: 0 auto 20px; }
-        .modal-glass h3 { color: #1e3a8a; font-size: 26px; margin-bottom: 10px; font-weight: 600; }
-        .modal-glass p { color: #475569; font-size: 15px; margin-bottom: 30px; line-height: 1.6; }
-        .modal-btn { background: #10b981; margin-top: 0; width: auto; padding: 12px 30px; font-size: 16px; }
-        .modal-btn:hover { background: #059669; transform: translateY(-3px); box-shadow: 0 8px 25px rgba(16, 185, 129, 0.4); }
+        .modal-glass h3 { color: #1e3a8a; font-size: 24px; margin-bottom: 10px; font-weight: 600; }
+        .modal-glass p { color: #475569; font-size: 15px; margin-bottom: 25px; line-height: 1.5; }
+        .modal-btn { background: #10b981; margin-top: 0; width: auto; padding: 10px 30px; border-radius: 8px; }
+        .modal-btn:hover { background: #059669; }
+
+        /* --- WHATSAPP --- */
+        .whatsapp-float { position: fixed; width: 65px; height: 65px; bottom: 30px; right: 30px; background-color: #25d366; border-radius: 50px; box-shadow: 0px 4px 15px rgba(0, 0, 0, 0.3); z-index: 10000; display: flex; align-items: center; justify-content: center; transition: all 0.3s ease; animation: pulseWA 2s infinite; }
+        .whatsapp-float svg { width: 38px; height: 38px; fill: white; margin-top: -2px; }
+        .whatsapp-float:hover { transform: scale(1.1); background-color: #128C7E; animation: none; }
+        @keyframes pulseWA { 0% { box-shadow: 0 0 0 0 rgba(37, 211, 102, 0.6); } 70% { box-shadow: 0 0 0 20px rgba(37, 211, 102, 0); } 100% { box-shadow: 0 0 0 0 rgba(37, 211, 102, 0); } }
 
         /* Responsivo */
         @media (max-width: 600px) { 
             .form-row { grid-template-columns: 1fr; gap: 0; } 
             .glass-container { padding: 25px; margin-top: 100px; margin-bottom: 100px; } 
             .logo-esquina { top: 20px; left: 50%; transform: translateX(-50%); } 
-            .logo-esquina img:hover { transform: translateX(-50%) scale(1.05); } 
             .whatsapp-float { width: 55px; height: 55px; bottom: 20px; right: 20px; }
             .whatsapp-float svg { width: 32px; height: 32px; }
         }
@@ -147,26 +167,22 @@
 <body>
 
     <div class="logo-esquina">
-        <img src="imagenes/logo.png" alt="Logo de la Empresa">
+        <a href="https://www.rapiaseo.com" target="_blank" title="Ir a la página de inicio">
+            <img src="imagenes/logo.png" alt="Logo de la Empresa">
+        </a>
     </div>
 
-    <!-- Formas líquidas -->
-    <div class="background-liquids">
-        <div class="blob blob-1"></div>
-        <div class="blob blob-2"></div>
-    </div>
-
-    <!-- CONTENEDOR PRINCIPAL -->
-    <div class="glass-container">
+    <!-- CONTENEDOR PRINCIPAL GLASSMORPHISM 3D INTERACTIVO -->
+    <div class="glass-container" id="glassContainer">
         <h2>Solicitud de Servicio</h2>
         <form id="serviceForm">
             
-            <div class="form-group" style="z-index: 1;">
+            <div class="form-group">
                 <label for="nombre">Nombre de la Persona o Empresa</label>
                 <input type="text" id="nombre" placeholder="Ej: Juan Pérez o Empresa S.A.S" required>
             </div>
 
-            <div class="form-row" style="z-index: 1; position: relative;">
+            <div class="form-row">
                 <div class="form-group">
                     <label for="razonSocial">Razón Social</label>
                     <input type="text" id="razonSocial" placeholder="Opcional">
@@ -177,12 +193,12 @@
                 </div>
             </div>
 
-            <div class="form-group" style="z-index: 1;">
+            <div class="form-group">
                 <label for="correo">Correo Electrónico</label>
                 <input type="email" id="correo" placeholder="ejemplo@correo.com" required>
             </div>
 
-            <div class="form-group" style="z-index: 1;">
+            <div class="form-group">
                 <label for="direccion">Dirección del Servicio</label>
                 <input type="text" id="direccion" placeholder="Calle, Carrera, Ciudad..." required>
             </div>
@@ -214,7 +230,7 @@
                 <p>⚠️ <strong>Importante:</strong> El servicio seleccionado requiere programar una <strong>visita técnica previa</strong> para evaluar el área y brindarte una cotización exacta.</p>
             </div>
 
-            <!-- SERVICIO ADICIONAL (SIEMPRE APARECERÁ DESPUÉS DEL PRINCIPAL) -->
+            <!-- SERVICIO ADICIONAL -->
             <div class="adicional-box" id="adicionalBox">
                 <div class="form-group" style="margin-bottom: 0;">
                     <label>¿Deseas agregar otro servicio adicional?</label>
@@ -264,7 +280,7 @@
             </div>
 
             <!-- BANNER DESCUENTO -->
-            <div class="discount-banner" id="discountBanner" style="z-index: 1;">
+            <div class="discount-banner" id="discountBanner">
                 <span style="font-size: 24px;">🏷️</span>
                 <p><strong>¡Beneficio exclusivo!</strong> Si programas este servicio de forma recurrente o por más días, obtendrás un <strong>descuento especial</strong> en tu tarifa.</p>
             </div>
@@ -273,7 +289,7 @@
         </form>
     </div>
 
-    <!-- VENTANA EMERGENTE DE ÉXITO (MODAL) -->
+    <!-- VENTANA EMERGENTE DE ÉXITO -->
     <div class="modal-overlay" id="successModal">
         <div class="modal-glass">
             <svg class="modal-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
@@ -285,18 +301,43 @@
         </div>
     </div>
 
-    <!-- BOTÓN DE WHATSAPP FLOTANTE -->
-    <a href="https://wa.me/573155928626?text=Hola%20RAPIASEO!%20Me%20gustar%C3%ADa%20solicitar%20un%20servicio%20de...%0A%0A" class="whatsapp-float" target="_blank" rel="noopener noreferrer" title="Chatea con nosotros en WhatsApp">
+    <!-- WHATSAPP FLOTANTE -->
+    <a href="https://wa.me/573155928626?text=Hola%20RAPIASEO!%20Me%20gustar%C3%ADa%20solicitar%20un%20servicio%20de...%0A%0A" class="whatsapp-float" target="_blank" rel="noopener noreferrer">
         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512">
             <path d="M380.9 97.1C339 55.1 283.2 32 223.9 32c-122.4 0-222 99.6-222 222 0 39.1 10.2 77.3 29.6 111L0 480l117.7-30.9c32.4 17.7 68.9 27 106.1 27h.1c122.3 0 224.1-99.6 224.1-222 0-59.3-25.2-115-67.1-157.1zm-157 341.6c-33.2 0-65.7-8.9-94-25.7l-6.7-4-69.8 18.3L72 359.2l-4.4-7c-18.5-29.4-28.2-63.3-28.2-98.2 0-101.7 82.8-184.5 184.6-184.5 49.3 0 95.6 19.2 130.4 54.1 34.8 34.9 56.2 81.2 56.1 130.5 0 101.8-84.9 184.6-186.6 184.6zm101.2-138.2c-5.5-2.8-32.8-16.2-37.9-18-5.1-1.9-8.8-2.8-12.5 2.8-3.7 5.6-14.3 18-17.6 21.8-3.2 3.7-6.5 4.2-12 1.4-32.6-16.3-54-29.1-75.5-66-5.7-9.8 5.7-9.1 16.3-30.3 1.8-3.7.9-6.9-.5-9.7-1.4-2.8-12.5-30.1-17.1-41.2-4.5-10.8-9.1-9.3-12.5-9.5-3.2-.2-6.9-.2-10.6-.2-3.7 0-9.7 1.4-14.8 6.9-5.1 5.6-19.4 19-19.4 46.3 0 27.3 19.9 53.7 22.6 57.4 2.8 3.7 39.1 59.7 94.8 83.8 35.2 15.2 49 16.5 66.6 13.9 10.7-1.6 32.8-13.4 37.4-26.4 4.6-13 4.6-24.1 3.2-26.4-1.3-2.5-5-3.9-10.5-6.6z"/>
         </svg>
     </a>
 
     <script>
-        // === NUEVA URL DE APPS SCRIPT ===
         const APPS_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbyRBK_xQHm6Dl6WVFl6gzBIfPNZnifww7v1j1uxqfehTMtOWRPySz5gNCYjlLHqtCU/exec';
 
+        // ==========================================
+        // EFECTO 3D SUAVE Y LUZ (MOUSE TRACKING)
+        // ==========================================
+        const glass = document.getElementById('glassContainer');
+
+        document.addEventListener('mousemove', (e) => {
+            // Movimiento muy sutil y suave para no deformar en exceso
+            const xAxis = (window.innerWidth / 2 - e.pageX) / 400;
+            const yAxis = (window.innerHeight / 2 - e.pageY) / 400;
+
+            glass.style.transform = `perspective(1200px) rotateY(${xAxis}deg) rotateX(${yAxis * -1}deg)`;
+            
+            // Luz que sigue el cursor
+            const rect = glass.getBoundingClientRect();
+            const x = e.clientX - rect.left;
+            const y = e.clientY - rect.top;
+            glass.style.setProperty('--mouse-x', `${x}px`);
+            glass.style.setProperty('--mouse-y', `${y}px`);
+        });
+
+        document.addEventListener('mouseleave', () => {
+            glass.style.transform = `perspective(1200px) rotateY(0deg) rotateX(0deg)`;
+        });
+
+        // ==========================================
         // Lógica de menús desplegables
+        // ==========================================
         const selectWrappers = document.querySelectorAll('.custom-select-wrapper');
 
         selectWrappers.forEach(wrapper => {
@@ -306,9 +347,7 @@
             const spanText = trigger.querySelector('span');
 
             trigger.addEventListener('click', function(e) {
-                selectWrappers.forEach(w => { 
-                    if(w !== wrapper) { w.classList.remove('open'); }
-                });
+                selectWrappers.forEach(w => { if(w !== wrapper) w.classList.remove('open'); });
                 wrapper.classList.toggle('open');
                 e.stopPropagation();
             });
@@ -329,19 +368,18 @@
             });
         });
 
-        window.addEventListener('click', function() {
+        window.addEventListener('click', () => {
             selectWrappers.forEach(w => w.classList.remove('open'));
         });
 
         // ==========================================
-        // LÓGICA DE SERVICIOS Y VISITA TÉCNICA
+        // Lógica de Servicios y Visita Técnica
         // ==========================================
         const inputServicio = document.getElementById('servicio');
         const visitaBox = document.getElementById('visitaBox');
         const adicionalBox = document.getElementById('adicionalBox');
         const inputAdicional = document.getElementById('servicioAdicional');
-
-        // Estos son los ÚNICOS que NO exigen visita técnica
+        
         const serviciosSinVisita = ['Aseo General', 'Conserje', 'Ninguno', ''];
 
         function verificarVisitaTecnica() {
@@ -358,9 +396,7 @@
             }
         }
 
-        // Cada vez que cambie el servicio principal
         inputServicio.addEventListener('change', function() {
-            // SIEMPRE que se escoja algo (lo que sea), se muestra la caja del servicio adicional
             if(this.value && this.value !== "") {
                 adicionalBox.classList.add('active');
             } else {
@@ -369,10 +405,7 @@
             verificarVisitaTecnica();
         });
 
-        // Cada vez que cambie el servicio adicional
-        inputAdicional.addEventListener('change', function() {
-            verificarVisitaTecnica();
-        });
+        inputAdicional.addEventListener('change', verificarVisitaTecnica);
 
         // ==========================================
         // Lógica del Banner de Descuento
@@ -396,14 +429,12 @@
         inputTiempoUnidad.addEventListener('change', verificarDescuento);
 
         // ==========================================
-        // Lógica de Ventana Emergente (Modal)
+        // Lógica del Modal (Ventana Emergente)
         // ==========================================
         const modal = document.getElementById('successModal');
         const btnCloseModal = document.getElementById('closeModalBtn');
 
-        btnCloseModal.addEventListener('click', () => {
-            modal.classList.remove('active');
-        });
+        btnCloseModal.addEventListener('click', () => { modal.classList.remove('active'); });
 
         // ==========================================
         // Envío del Formulario
@@ -411,20 +442,14 @@
         document.getElementById('serviceForm').addEventListener('submit', function(e) {
             e.preventDefault(); 
             
-            if(!inputServicio.value) {
-                alert("Por favor, seleccione el Tipo de Servicio Requerido.");
-                return;
-            }
+            if(!inputServicio.value) { alert("Por favor, seleccione el Tipo de Servicio Requerido."); return; }
 
             const btn = document.getElementById('submitBtn');
             const originalText = btn.innerText;
             
-            btn.innerText = "Enviando datos...";
-            btn.style.opacity = "0.8";
-            btn.disabled = true;
+            btn.innerText = "Enviando datos..."; btn.style.opacity = "0.8"; btn.disabled = true;
 
             const tiempoCompleto = inputTiempoCantidad.value + " " + inputTiempoUnidad.value;
-
             const formData = {
                 nombre: document.getElementById('nombre').value,
                 razonSocial: document.getElementById('razonSocial').value,
@@ -444,16 +469,9 @@
             .then(response => response.json())
             .then(data => {
                 if(data.result === "success") {
-                    
-                    // Mostrar la Ventana Emergente (Modal Glass)
                     modal.classList.add('active');
-                    
-                    // Restaurar botón
-                    btn.innerText = originalText;
-                    btn.disabled = false;
-                    btn.style.opacity = "1";
+                    btn.innerText = originalText; btn.disabled = false; btn.style.opacity = "1";
 
-                    // Limpiar formulario y ocultar cajas dinámicas
                     document.getElementById('serviceForm').reset();
                     
                     document.querySelector('#wrapper-servicio span').textContent = "Seleccione un servicio principal...";
@@ -471,22 +489,14 @@
                     discountBanner.classList.remove('active');
                     visitaBox.classList.remove('active'); 
                     adicionalBox.classList.remove('active');
-
                 } else {
                     throw new Error("Error en Apps Script");
                 }
             })
             .catch(error => {
                 console.error('Error!', error.message);
-                btn.style.background = "#ef4444"; 
-                btn.innerText = "Error al enviar. Intenta de nuevo.";
-                btn.style.opacity = "1";
-                
-                setTimeout(() => {
-                    btn.style.background = "#2e64b0"; 
-                    btn.innerText = originalText;
-                    btn.disabled = false;
-                }, 3000);
+                btn.style.background = "#ef4444"; btn.innerText = "Error al enviar. Intenta de nuevo."; btn.style.opacity = "1";
+                setTimeout(() => { btn.style.background = "#2e64b0"; btn.innerText = originalText; btn.disabled = false; }, 3000);
             });
         });
     </script>
