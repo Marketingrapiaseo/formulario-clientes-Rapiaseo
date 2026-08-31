@@ -17,7 +17,7 @@
             align-items: center; 
             overflow-x: hidden; 
             padding: 20px; 
-            perspective: 1200px;
+            perspective: 1200px; /* Para el efecto 3D del panel */
         }
         
         /* --- LOGO --- */
@@ -25,31 +25,41 @@
         .logo-esquina img { height: 80px; max-width: 300px; object-fit: contain; filter: drop-shadow(0 4px 6px rgba(0,0,0,0.1)); transition: transform 0.3s ease; }
         .logo-esquina img:hover { transform: scale(1.05); }
 
-        /* --- CONTENEDOR DE CRISTAL --- */
+        /* --- CONTENEDOR DE CRISTAL (Limpio y 3D) --- */
         .glass-container { 
             position: relative; 
             z-index: 1; 
+            
+            /* Cristal limpio y corporativo */
             background: rgba(255, 255, 255, 0.45);
             backdrop-filter: blur(25px);
             -webkit-backdrop-filter: blur(25px);
+            
             border: 1px solid rgba(255, 255, 255, 0.6);
             border-bottom: 1px solid rgba(255, 255, 255, 0.2);
             border-right: 1px solid rgba(255, 255, 255, 0.2);
             border-radius: 20px; 
+            
             box-shadow: 0 25px 45px rgba(0, 0, 0, 0.15);
+                
             width: 100%; 
             max-width: 650px; 
             padding: 40px; 
             color: #1e293b; 
             margin-top: 80px; 
             margin-bottom: 40px;
+            
+            /* Transición fluida para el seguimiento del ratón */
             transition: transform 0.1s ease-out;
             transform-style: preserve-3d;
             will-change: transform;
+            
+            /* Variables CSS para la luz dinámica */
             --mouse-x: 50%;
             --mouse-y: 50%;
         }
 
+        /* Reflejo Dinámico (Luz que sigue al ratón) */
         .glass-container::before {
             content: '';
             position: absolute;
@@ -64,7 +74,8 @@
             z-index: 0;
         }
 
-        #serviceForm, h2, #verificacionCedula { 
+        /* Elevación sutil del contenido sobre el cristal */
+        #serviceForm, h2 { 
             transform: translateZ(10px); 
             position: relative;
             z-index: 1;
@@ -75,12 +86,13 @@
         .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
         label { display: block; margin-bottom: 8px; font-size: 14px; color: #1e293b; font-weight: 700; text-shadow: 0 1px 3px rgba(255,255,255,0.8); }
 
+        /* --- INPUTS TEXTO --- */
         input[type="text"], input[type="tel"], input[type="email"], input[type="number"] { width: 100%; padding: 12px 15px; background: rgba(255, 255, 255, 0.7); border: 1px solid rgba(46, 100, 176, 0.3); border-radius: 10px; color: #1e293b; font-size: 15px; outline: none; transition: all 0.3s ease; position: relative; z-index: 1; }
         input::placeholder { color: #64748b; }
         input:hover { background: rgba(255, 255, 255, 0.9); box-shadow: 0 4px 10px rgba(46, 100, 176, 0.1); }
         input:focus { background: rgba(255, 255, 255, 1); border-color: #2e64b0; box-shadow: 0 0 0 4px rgba(46, 100, 176, 0.2); }
 
-        /* Desplegable personalizado */
+        /* --- DESPLEGABLE PERSONALIZADO --- */
         .custom-select-wrapper { position: relative; user-select: none; width: 100%; }
         .custom-select-trigger { display: flex; justify-content: space-between; align-items: center; width: 100%; padding: 12px 15px; background: rgba(255, 255, 255, 0.7); border: 1px solid rgba(46, 100, 176, 0.3); border-radius: 10px; color: #64748b; font-size: 15px; cursor: pointer; transition: all 0.3s ease; position: relative; z-index: 2; }
         .custom-select-trigger.has-value { color: #1e293b; }
@@ -100,27 +112,27 @@
         .custom-options::-webkit-scrollbar-thumb { background: rgba(46, 100, 176, 0.3); border-radius: 10px; }
         .hidden-select { position: absolute; opacity: 0; height: 0; width: 0; pointer-events: none; }
 
-        /* Caja de visita técnica */
+        /* --- ALERTA VISITA TÉCNICA (Diseño limpio y claro) --- */
         .visita-box { display: none; background: rgba(255, 255, 255, 0.95); border: 1px solid rgba(46, 100, 176, 0.2); border-left: 5px solid #2e64b0; padding: 15px 20px; border-radius: 8px; margin-bottom: 20px; position: relative; z-index: 25; box-shadow: 0 4px 15px rgba(0,0,0,0.05); }
         .visita-box.active { display: block; animation: slideDown 0.4s ease-out forwards; }
         .visita-box p { font-size: 14px; color: #334155; margin-bottom: 0; line-height: 1.5; }
         .visita-box strong { color: #1e293b; }
 
-        /* Caja servicio adicional */
+        /* --- CAJA SERVICIO ADICIONAL --- */
         .adicional-box { display: none; position: relative; z-index: 20; margin-bottom: 20px; background: rgba(255, 255, 255, 0.6); padding: 15px; border-radius: 10px; border: 1px dashed rgba(46, 100, 176, 0.4); }
         .adicional-box.active { display: block; animation: slideDown 0.4s ease-out forwards; }
 
         @keyframes slideDown { from { opacity: 0; transform: translateY(-10px); } to { opacity: 1; transform: translateY(0); } }
 
-        /* Banner de descuento */
+        /* --- BANNER DE DESCUENTO --- */
         .discount-banner { background: linear-gradient(90deg, rgba(255, 255, 255, 0.85), rgba(46, 100, 176, 0.1)); border-left: 4px solid #2e64b0; padding: 15px; border-radius: 8px; margin: 25px 0; font-size: 14px; display: flex; align-items: center; gap: 10px; transition: all 0.4s ease; color: #1e293b; position: relative; z-index: 1; box-shadow: 0 4px 15px rgba(0,0,0,0.1); }
         .discount-banner.active { background: linear-gradient(90deg, rgba(255, 255, 255, 0.95), rgba(46, 100, 176, 0.25)); transform: scale(1.02); border-color: #2e64b0; }
 
-        /* Botones */
+        /* --- BOTÓN FORMULARIO --- */
         button { width: 100%; padding: 15px; background: #2e64b0; border: none; border-radius: 10px; color: #ffffff; font-size: 16px; font-weight: 600; cursor: pointer; transition: all 0.3s ease; box-shadow: 0 5px 15px rgba(46, 100, 176, 0.4); margin-top: 10px; position: relative; z-index: 1; }
         button:hover { transform: translateY(-3px); box-shadow: 0 8px 25px rgba(46, 100, 176, 0.6); background: #255393; }
 
-        /* Modal éxito */
+        /* --- VENTANA EMERGENTE DE ÉXITO --- */
         .modal-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0, 0, 0, 0.5); backdrop-filter: blur(5px); z-index: 99999; display: flex; justify-content: center; align-items: center; opacity: 0; visibility: hidden; transition: all 0.3s ease; }
         .modal-overlay.active { opacity: 1; visibility: visible; }
         .modal-glass { 
@@ -136,7 +148,7 @@
         .modal-btn { background: #10b981; margin-top: 0; width: auto; padding: 10px 30px; border-radius: 8px; }
         .modal-btn:hover { background: #059669; }
 
-        /* WhatsApp flotante */
+        /* --- WHATSAPP --- */
         .whatsapp-float { position: fixed; width: 65px; height: 65px; bottom: 30px; right: 30px; background-color: #25d366; border-radius: 50px; box-shadow: 0px 4px 15px rgba(0, 0, 0, 0.3); z-index: 10000; display: flex; align-items: center; justify-content: center; transition: all 0.3s ease; animation: pulseWA 2s infinite; }
         .whatsapp-float svg { width: 38px; height: 38px; fill: white; margin-top: -2px; }
         .whatsapp-float:hover { transform: scale(1.1); background-color: #128C7E; animation: none; }
@@ -150,30 +162,6 @@
             .whatsapp-float { width: 55px; height: 55px; bottom: 20px; right: 20px; }
             .whatsapp-float svg { width: 32px; height: 32px; }
         }
-
-        /* Bloqueo inicial */
-        .formulario-bloqueado {
-            pointer-events: none;
-            opacity: 0.6;
-        }
-        .verificacion-container {
-            margin-bottom: 30px;
-            border: 2px dashed rgba(46, 100, 176, 0.4);
-            padding: 20px;
-            border-radius: 12px;
-            background: rgba(255,255,255,0.5);
-        }
-        .verificacion-container input {
-            margin-bottom: 10px;
-        }
-        .error-msg {
-            color: #ef4444;
-            font-size: 14px;
-            margin-top: 10px;
-            display: none;
-            font-weight: 500;
-        }
-        .error-msg.active { display: block; }
     </style>
 </head>
 <body>
@@ -187,17 +175,7 @@
     <!-- CONTENEDOR PRINCIPAL GLASSMORPHISM 3D INTERACTIVO -->
     <div class="glass-container" id="glassContainer">
         <h2>Solicitud de Servicio</h2>
-
-        <!-- Verificación de cédula -->
-        <div class="verificacion-container" id="verificacionCedula">
-            <label for="cedulaVerificacion">Número de Cédula *</label>
-            <input type="number" id="cedulaVerificacion" placeholder="Ingresa tu cédula para verificar identidad" required>
-            <button type="button" id="btnVerificar" onclick="verificarCedula()">Verificar identidad</button>
-            <div class="error-msg" id="errorCedula">Cédula no encontrada en la base de datos. Contacta a RAPIASEO.</div>
-        </div>
-
-        <!-- Formulario principal (inicialmente bloqueado) -->
-        <form id="serviceForm" class="formulario-bloqueado">
+        <form id="serviceForm">
             
             <div class="form-group">
                 <label for="nombre">Nombre de la Persona o Empresa</label>
@@ -331,9 +309,7 @@
     </a>
 
     <script>
-        // URLs de Apps Script
-        const APPS_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbxZzpQ8Ns1d212DhFUH6SeM9UAp0m6v-bsnw7jdPTOKPYmh7Cx97WTtQHiwPvJP9NQr/exec'; // Para envío
-        const VERIFY_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbxZzpQ8Ns1d212DhFUH6SeM9UAp0m6v-bsnw7jdPTOKPYmh7Cx97WTtQHiwPvJP9NQr/exec'; // Mismo script, con acción 'verificarCedula'
+        const APPS_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbxZzpQ8Ns1d212DhFUH6SeM9UAp0m6v-bsnw7jdPTOKPYmh7Cx97WTtQHiwPvJP9NQr/exec';
 
         // ==========================================
         // EFECTO 3D SUAVE Y LUZ (MOUSE TRACKING)
@@ -341,9 +317,13 @@
         const glass = document.getElementById('glassContainer');
 
         document.addEventListener('mousemove', (e) => {
+            // Movimiento muy sutil y suave para no deformar en exceso
             const xAxis = (window.innerWidth / 2 - e.pageX) / 400;
             const yAxis = (window.innerHeight / 2 - e.pageY) / 400;
+
             glass.style.transform = `perspective(1200px) rotateY(${xAxis}deg) rotateX(${yAxis * -1}deg)`;
+            
+            // Luz que sigue el cursor
             const rect = glass.getBoundingClientRect();
             const x = e.clientX - rect.left;
             const y = e.clientY - rect.top;
@@ -376,9 +356,11 @@
                 option.addEventListener('click', function(e) {
                     options.forEach(opt => opt.classList.remove('selected'));
                     this.classList.add('selected');
+
                     spanText.textContent = this.textContent;
                     hiddenInput.value = this.getAttribute('data-value');
                     trigger.classList.add('has-value');
+
                     wrapper.classList.remove('open');
                     hiddenInput.dispatchEvent(new Event('change'));
                     e.stopPropagation();
@@ -403,8 +385,10 @@
         function verificarVisitaTecnica() {
             const valPrincipal = inputServicio.value;
             const valAdicional = inputAdicional.value;
+
             const principalPideVisita = valPrincipal !== "" && !serviciosSinVisita.includes(valPrincipal);
             const adicionalPideVisita = valAdicional !== "" && !serviciosSinVisita.includes(valAdicional);
+
             if (principalPideVisita || adicionalPideVisita) {
                 visitaBox.classList.add('active');
             } else {
@@ -433,6 +417,7 @@
         function verificarDescuento() {
             const cantidad = parseInt(inputTiempoCantidad.value) || 0;
             const unidad = inputTiempoUnidad.value;
+
             if (cantidad > 1 || unidad === 'Semanas' || unidad === 'Meses') {
                 discountBanner.classList.add('active');
             } else {
@@ -448,46 +433,8 @@
         // ==========================================
         const modal = document.getElementById('successModal');
         const btnCloseModal = document.getElementById('closeModalBtn');
+
         btnCloseModal.addEventListener('click', () => { modal.classList.remove('active'); });
-
-        // ==========================================
-        // VERIFICACIÓN DE CÉDULA
-        // ==========================================
-        async function verificarCedula() {
-            const cedula = document.getElementById('cedulaVerificacion').value.trim();
-            const errorMsg = document.getElementById('errorCedula');
-            errorMsg.classList.remove('active');
-            if (!cedula) {
-                alert('Por favor ingresa tu número de cédula.');
-                return;
-            }
-
-            const btnVerificar = document.getElementById('btnVerificar');
-            btnVerificar.disabled = true;
-            btnVerificar.innerText = 'Verificando...';
-
-            try {
-                const response = await fetch(VERIFY_SCRIPT_URL, {
-                    method: 'POST',
-                    body: JSON.stringify({ action: 'verificarCedula', cedula: cedula }),
-                    headers: { 'Content-Type': 'text/plain;charset=utf-8' }
-                });
-                const data = await response.json();
-                if (data.existe) {
-                    // Desbloquear formulario
-                    document.getElementById('serviceForm').classList.remove('formulario-bloqueado');
-                    document.getElementById('verificacionCedula').style.display = 'none';
-                } else {
-                    errorMsg.classList.add('active');
-                }
-            } catch (error) {
-                console.error('Error verificando:', error);
-                alert('Error al conectar con el servidor. Intenta nuevamente.');
-            } finally {
-                btnVerificar.disabled = false;
-                btnVerificar.innerText = 'Verificar identidad';
-            }
-        }
 
         // ==========================================
         // Envío del Formulario
@@ -511,8 +458,7 @@
                 direccion: document.getElementById('direccion').value,
                 servicio: document.getElementById('servicio').value,
                 servicioAdicional: document.getElementById('servicioAdicional').value,
-                dias: tiempoCompleto,
-                cedula: document.getElementById('cedulaVerificacion').value // incluir cédula en envío
+                dias: tiempoCompleto 
             };
 
             fetch(APPS_SCRIPT_URL, {
@@ -525,24 +471,24 @@
                 if(data.result === "success") {
                     modal.classList.add('active');
                     btn.innerText = originalText; btn.disabled = false; btn.style.opacity = "1";
+
                     document.getElementById('serviceForm').reset();
-                    // Restablecer selects personalizados
+                    
                     document.querySelector('#wrapper-servicio span').textContent = "Seleccione un servicio principal...";
                     document.querySelector('#wrapper-servicio .custom-select-trigger').classList.remove('has-value');
                     inputServicio.value = "";
+
                     document.querySelector('#wrapper-adicional span').textContent = "No, no requiero otro servicio.";
                     inputAdicional.value = "Ninguno";
                     document.querySelectorAll('#wrapper-adicional .custom-option').forEach(opt => opt.classList.remove('selected'));
                     document.querySelectorAll('#wrapper-adicional .custom-option')[0].classList.add('selected');
+
                     document.querySelector('#wrapper-tiempo-unidad span').textContent = "Días";
                     inputTiempoUnidad.value = "Días";
+                    
                     discountBanner.classList.remove('active');
                     visitaBox.classList.remove('active'); 
                     adicionalBox.classList.remove('active');
-                    // Bloquear formulario de nuevo y mostrar verificación
-                    document.getElementById('serviceForm').classList.add('formulario-bloqueado');
-                    document.getElementById('verificacionCedula').style.display = 'block';
-                    document.getElementById('cedulaVerificacion').value = '';
                 } else {
                     throw new Error("Error en Apps Script");
                 }
@@ -555,5 +501,5 @@
         });
     </script>
 
-</body>
+</body
 </html>
